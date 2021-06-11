@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FakeInstagramEfModels.Tables
+namespace FakeInstagramEfModels.Entities
 {
-    class PictureStatus
+    public enum UserStatus
     {
-        [Key, Required] public long Id { get; set; }
-        [Required] public string Name { get; set; }
+        Idle = 0,
+        Warned,
+        Suspended,
+        Banned,
+        Deleted
     }
 }

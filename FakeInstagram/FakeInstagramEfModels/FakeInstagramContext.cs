@@ -1,4 +1,4 @@
-﻿using FakeInstagramEfModels.Tables;
+﻿using FakeInstagramEfModels.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -8,8 +8,13 @@ namespace FakeInstagramEfModels
     {
         //All avaliable dbsets for EfCore
         public DbSet<User> Users { get; set; }
-        public DbSet<UserGroup> UserGroups { get; set; }
-        public DbSet<UserStatus> UserStatuses { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        //public DbSet<UserStatus> UserStatuses { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        //public DbSet<PostStatus> PostStatuses { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

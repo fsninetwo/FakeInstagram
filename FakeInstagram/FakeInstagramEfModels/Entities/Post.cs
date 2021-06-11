@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FakeInstagramEfModels.Tables
+namespace FakeInstagramEfModels.Entities
 {
-    class Tag
+    public abstract class Post
     {
-        [Key, Required] public long Id { get; set; }
-        [Required] public string Name { get; set; }
+        
     }
 }
