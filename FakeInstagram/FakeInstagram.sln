@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeInstagram", "FakeInstagram\FakeInstagram.csproj", "{73F7E47C-6508-4456-8353-8390DCA58831}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeInstagramEfModels", "FakeInstagramEfModels\FakeInstagramEfModels.csproj", "{901A4433-D392-4665-8CB1-8EBA9B22D513}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
