@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
-    public class Picture
+    public class Picture : Entity
     {
-        [Key, Required] 
-        public Guid Id { get; set; }
-
         [Required] 
         public string Name { get; set; }
 
@@ -21,6 +18,5 @@ namespace FakeInstagramEfModels.Entities
         [Required] 
         public DateTime Uploaded { get; set; } = DateTime.Now;
 
-        public PicturePost PicturePost { get; set; }
     }
 }

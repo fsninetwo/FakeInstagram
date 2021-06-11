@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
-    public class Tag
+    public class Tag : Entity
     {
-        [Key, Required] 
-        public Guid Id { get; set; }
-
         [Required] 
         public string Name { get; set; }
     }

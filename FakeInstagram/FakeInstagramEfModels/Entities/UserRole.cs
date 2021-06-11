@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
-    public class UserRole
+    public class UserRole : Entity
     {
         [Key, Required] 
         public Guid Id { get; set; }
@@ -15,6 +15,5 @@ namespace FakeInstagramEfModels.Entities
         [Required] 
         public string Name { get; set; }
 
-        public List<User> Users { get; set; }
     }
 }
