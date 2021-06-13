@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
-    public class Post
+    public class Post : Entity
     {
         [Required]
         public string Content { get; set; }
@@ -23,5 +23,7 @@ namespace FakeInstagramEfModels.Entities
         public List<Attribute> Attributes { get; set; }
 
         public List<Tag> Tags { get; set; }
+
+        public List<Like> Likes { get; set; }
     }
 }
