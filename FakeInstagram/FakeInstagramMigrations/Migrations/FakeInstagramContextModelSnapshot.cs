@@ -47,7 +47,7 @@ namespace FakeInstagramMigrations.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Attribute");
+                    b.ToTable("Attributes");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Attribute");
                 });

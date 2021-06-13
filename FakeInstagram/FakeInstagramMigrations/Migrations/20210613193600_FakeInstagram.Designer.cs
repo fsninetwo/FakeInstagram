@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FakeInstagramMigrations.Migrations
 {
     [DbContext(typeof(FakeInstagramContext))]
-    [Migration("20210613171501_FakeInstagram")]
+    [Migration("20210613193600_FakeInstagram")]
     partial class FakeInstagram
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,7 @@ namespace FakeInstagramMigrations.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Attribute");
+                    b.ToTable("Attributes");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Attribute");
                 });

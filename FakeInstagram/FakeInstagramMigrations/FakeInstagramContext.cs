@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using Attribute = FakeInstagramEfModels.Entities.Attribute;
 
 namespace FakeInstagramEfModels
 {
@@ -21,15 +22,15 @@ namespace FakeInstagramEfModels
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Main database connection
-            optionsBuilder.UseSqlServer(@"Server=(local)\sqlexpress;Database=FakeInstagram;Integrated Security=True");
+            //var connectionString = @"Server=(local)\mssqllocaldb;Database=FakeInstagram;Integrated Security=True";
+            var connectionString = @"Server=WIN-6280MA0A0E4\SQLEXPRESS;Database=FakeInstagram;Integrated Security=True";
+            optionsBuilder.UseSqlServer(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Code-First methods for creating and updating models
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
-            //modelBuilder.Entity<User>().HasData(new List<User>() { new User() });
+            modelBuilder.Entity<Attribute>().ToTable("Attributes");
         }
     }
 }
