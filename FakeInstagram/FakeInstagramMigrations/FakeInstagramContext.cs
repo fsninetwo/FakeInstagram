@@ -21,7 +21,7 @@ namespace FakeInstagramEfModels
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Main database connection
-            optionsBuilder.UseSqlServer(@"Server=WIN-6280MA0A0E4\SQLEXPRESS;Database=FakeInstagram;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Server=(local)\sqlexpress;Database=FakeInstagram;Integrated Security=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
