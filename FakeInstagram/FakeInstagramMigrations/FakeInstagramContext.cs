@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using Attribute = FakeInstagramEfModels.Entities.Attribute;
+using PostAttribute = FakeInstagramEfModels.Entities.PostAttribute;
 
 namespace FakeInstagramEfModels
 {
@@ -12,8 +12,8 @@ namespace FakeInstagramEfModels
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         //public DbSet<UserStatus> UserStatuses { get; set; }
-        public DbSet<Picture> Pictures { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<PostImage> PostImages { get; set; }
         //public DbSet<PostStatus> PostStatuses { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Like> Likes { get; set; }
@@ -30,7 +30,8 @@ namespace FakeInstagramEfModels
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Code-First methods for creating and updating models
-            modelBuilder.Entity<Attribute>().ToTable("Attributes");
+            modelBuilder.Entity<PostImageAttribute>().ToTable("PostImageAttributes");
+            modelBuilder.Entity<PostTextAttribute>().ToTable("PostTextAttributes");
         }
     }
 }

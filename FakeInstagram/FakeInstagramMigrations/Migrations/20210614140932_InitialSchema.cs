@@ -3,10 +3,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FakeInstagramMigrations.Migrations
 {
-    public partial class Migrations : Migration
+    public partial class InitialSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "PostImage",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Uploaded = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostImage", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
@@ -20,12 +34,33 @@ namespace FakeInstagramMigrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PostTextAttributes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostTextAttributes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PostTextAttributes_PostImage_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "PostImage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Sol = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -48,7 +83,7 @@ namespace FakeInstagramMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Header = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -65,21 +100,17 @@ namespace FakeInstagramMigrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Attribute",
+                name: "Likes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Uploaded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Attribute", x => x.Id);
+                    table.PrimaryKey("PK_Likes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Attribute_Posts_PostId",
+                        name: "FK_Likes_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
@@ -106,14 +137,19 @@ namespace FakeInstagramMigrations.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attribute_PostId",
-                table: "Attribute",
+                name: "IX_Likes_PostId",
+                table: "Likes",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostTextAttributes_ImageId",
+                table: "PostTextAttributes",
+                column: "ImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tags_PostId",
@@ -129,10 +165,16 @@ namespace FakeInstagramMigrations.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Attribute");
+                name: "Likes");
+
+            migrationBuilder.DropTable(
+                name: "PostTextAttributes");
 
             migrationBuilder.DropTable(
                 name: "Tags");
+
+            migrationBuilder.DropTable(
+                name: "PostImage");
 
             migrationBuilder.DropTable(
                 name: "Posts");

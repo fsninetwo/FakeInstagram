@@ -8,6 +8,6 @@ namespace FakeInstagramEfModels.Entities
 {
     public class Like : Entity
     {
-
+        public Post Post { get; set; }
     }
 }

@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
-    public class Picture : Attribute
+    public class PostImageAttribute : PostTextAttribute
     {
-        
+        [Required]
+        public PostImage Image { get; set; }
 
     }
 }
