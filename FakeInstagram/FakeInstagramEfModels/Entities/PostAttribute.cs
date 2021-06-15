@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
-    [NotMapped]
-    public class PostAttribute : Entity
+    public abstract class PostAttribute : Entity
     {
-        
+
     }
 }
