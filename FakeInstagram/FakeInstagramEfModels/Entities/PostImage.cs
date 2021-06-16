@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
-    public class Picture : Entity
+    public class PostImage : Entity
     {
-        [Required] 
+        [Required]
         public string Name { get; set; }
 
-        [Required] 
+        [Required]
         public string Link { get; set; }
 
-        [Required] 
+        [Required]
         public DateTime Uploaded { get; set; } = DateTime.Now;
 
     }

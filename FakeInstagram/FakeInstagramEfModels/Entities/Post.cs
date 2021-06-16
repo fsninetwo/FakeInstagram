@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
-    public class Post
+    public class Post : Entity
     {
         [Required]
-        public string Content { get; set; }
+        public string Header { get; set; }
 
         [Required]
         public DateTime Created { get; set; } = DateTime.Now;
@@ -20,8 +20,10 @@ namespace FakeInstagramEfModels.Entities
 
         public User User { get; set; }
 
-        public List<Attribute> Attributes { get; set; }
+        public List<PostAttribute> PostAttributes { get; set; }
 
         public List<Tag> Tags { get; set; }
+
+        public List<Like> Likes { get; set; }
     }
 }

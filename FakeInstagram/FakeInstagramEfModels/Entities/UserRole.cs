@@ -9,9 +9,6 @@ namespace FakeInstagramEfModels.Entities
 {
     public class UserRole : Entity
     {
-        [Key, Required] 
-        public Guid Id { get; set; }
-
         [Required] 
         public string Name { get; set; }
 

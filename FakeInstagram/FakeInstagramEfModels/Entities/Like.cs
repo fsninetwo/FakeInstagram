@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
-    public abstract class Attribute
+    public class Like : Entity
     {
+        public Post Post { get; set; }
     }
 }
