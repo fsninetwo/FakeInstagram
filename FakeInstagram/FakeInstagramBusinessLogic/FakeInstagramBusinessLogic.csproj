@@ -10,6 +10,9 @@
   <ItemGroup>
     <ProjectReference Include="..\FakeInstagramEfModels\FakeInstagramEfModels.csproj" />
     <ProjectReference Include="..\FakeInstagramMigrations\FakeInstagramMigrations.csproj" />
+    <Folder Include="Converters\" />
+    <Folder Include="Providers\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
