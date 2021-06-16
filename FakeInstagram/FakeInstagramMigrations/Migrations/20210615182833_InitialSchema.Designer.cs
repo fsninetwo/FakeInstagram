@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FakeInstagramMigrations.Migrations
 {
     [DbContext(typeof(FakeInstagramContext))]
-    [Migration("20210615182300_InitialSchema")]
+    [Migration("20210615182833_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
