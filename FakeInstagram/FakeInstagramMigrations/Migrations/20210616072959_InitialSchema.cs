@@ -98,18 +98,17 @@ namespace FakeInstagramMigrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostTextAttributes",
+                name: "PostAttributes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostTextAttributes", x => x.Id);
+                    table.PrimaryKey("PK_PostAttributes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostTextAttributes_Posts_PostId",
+                        name: "FK_PostAttributes_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
@@ -131,6 +130,24 @@ namespace FakeInstagramMigrations.Migrations
                         name: "FK_Tags_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PostTextAttributes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostTextAttributes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PostTextAttributes_PostAttributes_Id",
+                        column: x => x.Id,
+                        principalTable: "PostAttributes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -165,6 +182,11 @@ namespace FakeInstagramMigrations.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostAttributes_PostId",
+                table: "PostAttributes",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PostImageAttributes_ImageId",
                 table: "PostImageAttributes",
                 column: "ImageId");
@@ -173,11 +195,6 @@ namespace FakeInstagramMigrations.Migrations
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PostTextAttributes_PostId",
-                table: "PostTextAttributes",
-                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tags_PostId",
@@ -206,6 +223,9 @@ namespace FakeInstagramMigrations.Migrations
 
             migrationBuilder.DropTable(
                 name: "PostTextAttributes");
+
+            migrationBuilder.DropTable(
+                name: "PostAttributes");
 
             migrationBuilder.DropTable(
                 name: "Posts");

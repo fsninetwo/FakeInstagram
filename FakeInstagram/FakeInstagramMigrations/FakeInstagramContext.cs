@@ -36,7 +36,7 @@ namespace FakeInstagramMigrations
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Code-First methods for creating and updating models
-            modelBuilder.Ignore<PostAttribute>();
+            //modelBuilder.Ignore<PostAttribute>();
         }
     }
 }

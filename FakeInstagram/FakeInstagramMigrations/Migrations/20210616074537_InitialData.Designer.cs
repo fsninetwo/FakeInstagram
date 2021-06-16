@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FakeInstagramMigrations.Migrations
 {
     [DbContext(typeof(FakeInstagramContext))]
-    [Migration("20210615182833_InitialSchema")]
-    partial class InitialSchema
+    [Migration("20210616074537_InitialData")]
+    partial class InitialData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,6 +63,22 @@ namespace FakeInstagramMigrations.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("FakeInstagramEfModels.Entities.PostAttribute", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostAttribute");
+                });
+
             modelBuilder.Entity("FakeInstagramEfModels.Entities.PostImage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -83,25 +99,6 @@ namespace FakeInstagramMigrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PostImages");
-                });
-
-            modelBuilder.Entity("FakeInstagramEfModels.Entities.PostTextAttribute", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("PostTextAttributes");
                 });
 
             modelBuilder.Entity("FakeInstagramEfModels.Entities.Tag", b =>
@@ -178,6 +175,16 @@ namespace FakeInstagramMigrations.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("FakeInstagramEfModels.Entities.PostTextAttribute", b =>
+                {
+                    b.HasBaseType("FakeInstagramEfModels.Entities.PostAttribute");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("PostTextAttributes");
+                });
+
             modelBuilder.Entity("FakeInstagramEfModels.Entities.PostImageAttribute", b =>
                 {
                     b.HasBaseType("FakeInstagramEfModels.Entities.PostTextAttribute");
@@ -208,10 +215,10 @@ namespace FakeInstagramMigrations.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FakeInstagramEfModels.Entities.PostTextAttribute", b =>
+            modelBuilder.Entity("FakeInstagramEfModels.Entities.PostAttribute", b =>
                 {
                     b.HasOne("FakeInstagramEfModels.Entities.Post", "Post")
-                        .WithMany()
+                        .WithMany("PostAttributes")
                         .HasForeignKey("PostId");
 
                     b.Navigation("Post");
@@ -233,6 +240,15 @@ namespace FakeInstagramMigrations.Migrations
                     b.Navigation("UserRole");
                 });
 
+            modelBuilder.Entity("FakeInstagramEfModels.Entities.PostTextAttribute", b =>
+                {
+                    b.HasOne("FakeInstagramEfModels.Entities.PostAttribute", null)
+                        .WithOne()
+                        .HasForeignKey("FakeInstagramEfModels.Entities.PostTextAttribute", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FakeInstagramEfModels.Entities.PostImageAttribute", b =>
                 {
                     b.HasOne("FakeInstagramEfModels.Entities.PostTextAttribute", null)
@@ -251,6 +267,8 @@ namespace FakeInstagramMigrations.Migrations
             modelBuilder.Entity("FakeInstagramEfModels.Entities.Post", b =>
                 {
                     b.Navigation("Likes");
+
+                    b.Navigation("PostAttributes");
 
                     b.Navigation("Tags");
                 });

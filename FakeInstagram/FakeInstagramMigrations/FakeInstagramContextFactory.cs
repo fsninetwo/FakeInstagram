@@ -15,14 +15,14 @@ namespace FakeInstagramMigrations
     {
         public FakeInstagramContext CreateDbContext(string[] args)
         {
-            //var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            //Console.WriteLine($"environmentName={environmentName}");
+            Console.WriteLine($"environmentName={environmentName}");
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true)
-                .AddJsonFile($"appsettings.local.json", optional: true);
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true);
 
             IConfigurationRoot configuration = builder.Build();
 
