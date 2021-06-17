@@ -21,8 +21,8 @@ namespace FakeInstagramBusinessLogic.Repositories
         public PostViewModel Get(Guid id)
         {
             Post post = _context.Posts.FirstOrDefault(post => post.Id == id);
-            PostViewModel postViewModel = new PostViewModel { Id = post.Id };
-            return postViewModel;
+            //PostViewModel postViewModel = new PostViewModel { Id = post.Id };
+            return new PostViewModel { Id = post.Id };
         }
     }
 }
