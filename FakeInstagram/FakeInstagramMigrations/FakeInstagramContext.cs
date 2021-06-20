@@ -19,6 +19,7 @@ namespace FakeInstagramMigrations
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostImage> PostImages { get; set; }
+        //public DbSet<PostAttribute> PostAttributes { get; set; }
         public DbSet<PostTextAttribute> PostTextAttributes { get; set; }
         public DbSet<PostImageAttribute> PostImageAttributes { get; set; }
         public DbSet<Tag> Tags { get; set; }

@@ -18,9 +18,11 @@ namespace FakeInstagramEfModels.Entities
         [Required]
         public DateTime Updated { get; set; } = DateTime.Now;
 
+        [Required]
         public User User { get; set; }
 
-        public List<PostAttribute> PostAttributes { get; set; }
+        [Required]
+        public PostAttribute PostAttribute { get; set; }
 
         public List<Tag> Tags { get; set; }
 

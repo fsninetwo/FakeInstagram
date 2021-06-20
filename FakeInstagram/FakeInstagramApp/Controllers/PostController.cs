@@ -1,5 +1,7 @@
 ﻿using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramViewModels;
+using FakeInstagramViewModels.CreateModels;
+using FakeInstagramViewModels.UpdateModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramApp.Controllers
 {
+    [Route("[controller]")]
     public class PostController : Controller
     {
         private readonly IPostRepository _postRepository;
@@ -20,18 +23,33 @@ namespace FakeInstagramApp.Controllers
         /// <summary>
         /// Creates a specific item.
         /// </summary>
-        /// <param name="id"></param>        
-        [HttpPost("{id}")]
-        public IActionResult Create(Guid id)
+        /// <param name="postTextModel"></param>        
+        [HttpPost]
+        [Route("CreateTextPost/")]
+        public IActionResult CreateTextPost(CreatePostTextModel postTextModel)
         {
-            return NoContent();
+            _postRepository.CreatePostTextModel(postTextModel);
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// Creates a specific item.
+        /// </summary>
+        /// <param name="postImageModel"></param>        
+        [HttpPost]
+        [Route("CreateImagePost/")]
+        public IActionResult CreateTextPost(CreatePostImageModel postImageModel)
+        {
+            _postRepository.CreatePostImageModel(postImageModel);
+            return new OkResult();
         }
 
         /// <summary>
         /// Gets a specific item.
         /// </summary>
         /// <param name="id"></param>        
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("Get/{id}")]
         public IActionResult Get(Guid id)
         {
             PostViewModel postViewModel = _postRepository.Get(id);
@@ -41,21 +59,37 @@ namespace FakeInstagramApp.Controllers
         /// <summary>
         /// Updates a specific item.
         /// </summary>
-        /// <param name="id"></param>        
-        [HttpPut("{id}")]
-        public IActionResult Update(Guid id)
+        /// <param name="postTextModel"></param>      
+        [HttpPut]
+        [Route("UpdatePostTextModel/")]
+        public IActionResult UpdateTextPost(UpdatePostTextModel postTextModel)
         {
-            return NoContent();
+            _postRepository.UpdatePostTextModel(postTextModel);
+            return new OkResult();
+        }
+
+        /// <summary>
+        /// Updates a specific item.
+        /// </summary>
+        /// <param name="postImageModel"></param>      
+        [HttpPut]
+        [Route("UpdatePostImageModel/")]
+        public IActionResult UpdateImagePost(UpdatePostImageModel postImageModel)
+        {
+            _postRepository.UpdatePostImageModel(postImageModel);
+            return new OkResult();
         }
 
         /// <summary>
         /// Deletes a specific item.
         /// </summary>
         /// <param name="id"></param> 
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("Delete/{id}")]
         public IActionResult Delete(Guid id)
         {
-            return NoContent();
+            _postRepository.Delete(id);
+            return new OkResult();
         }
     }
 }

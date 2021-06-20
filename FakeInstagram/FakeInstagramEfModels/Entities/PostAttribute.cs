@@ -11,6 +11,6 @@ namespace FakeInstagramEfModels.Entities
     [Table("PostAttributes")]
     public abstract class PostAttribute : Entity
     {
-        public Post Post { get; set; }
+
     }
 }

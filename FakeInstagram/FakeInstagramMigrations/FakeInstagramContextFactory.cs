@@ -22,7 +22,7 @@ namespace FakeInstagramMigrations
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true)
-                .AddJsonFile($"appsettings.{environmentName}.json", optional: true);
+                .AddJsonFile($"appsettings.local.json", optional: true);
 
             IConfigurationRoot configuration = builder.Build();
 

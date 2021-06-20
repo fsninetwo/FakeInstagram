@@ -1,6 +1,5 @@
 ﻿using FakeInstagramEfModels.Entities;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System.Collections.Generic;
 
 namespace FakeInstagramMigrations.Migrations
 {
@@ -12,7 +11,7 @@ namespace FakeInstagramMigrations.Migrations
             var context = dbContextFactory.CreateDbContext(null);
             var user = new User
             {
-                Login = "fsninetwo",
+                Email = "admin@admin.com",
                 Password = "12345678"
             };
 
@@ -23,7 +22,7 @@ namespace FakeInstagramMigrations.Migrations
             {
                 Header = "First Post",
                 User = user,
-                PostAttributes = new List<PostAttribute> { posttext1 }
+                PostAttribute = posttext1
             };
             context.Add(post1);
             context.SaveChanges();
@@ -33,7 +32,7 @@ namespace FakeInstagramMigrations.Migrations
             {
                 Header = "Second Post",
                 User = user,
-                PostAttributes = new List<PostAttribute> { posttext2 }
+                PostAttribute = posttext2
             };
             context.Add(post2);
             context.SaveChanges();

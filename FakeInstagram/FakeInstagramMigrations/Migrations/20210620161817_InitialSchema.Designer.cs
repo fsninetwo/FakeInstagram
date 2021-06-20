@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FakeInstagramMigrations.Migrations
 {
     [DbContext(typeof(FakeInstagramContext))]
-    [Migration("20210616072959_InitialSchema")]
+    [Migration("20210620161817_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,13 +50,18 @@ namespace FakeInstagramMigrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("PostAttributeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PostAttributeId");
 
                     b.HasIndex("UserId");
 
@@ -69,14 +74,9 @@ namespace FakeInstagramMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
-
-                    b.ToTable("PostAttribute");
+                    b.ToTable("PostAttributes");
                 });
 
             modelBuilder.Entity("FakeInstagramEfModels.Entities.PostImage", b =>
@@ -130,14 +130,14 @@ namespace FakeInstagramMigrations.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
@@ -208,20 +208,19 @@ namespace FakeInstagramMigrations.Migrations
 
             modelBuilder.Entity("FakeInstagramEfModels.Entities.Post", b =>
                 {
+                    b.HasOne("FakeInstagramEfModels.Entities.PostAttribute", "PostAttribute")
+                        .WithMany()
+                        .HasForeignKey("PostAttributeId");
+
                     b.HasOne("FakeInstagramEfModels.Entities.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PostAttribute");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FakeInstagramEfModels.Entities.PostAttribute", b =>
-                {
-                    b.HasOne("FakeInstagramEfModels.Entities.Post", "Post")
-                        .WithMany("PostAttributes")
-                        .HasForeignKey("PostId");
-
-                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("FakeInstagramEfModels.Entities.Tag", b =>
@@ -267,8 +266,6 @@ namespace FakeInstagramMigrations.Migrations
             modelBuilder.Entity("FakeInstagramEfModels.Entities.Post", b =>
                 {
                     b.Navigation("Likes");
-
-                    b.Navigation("PostAttributes");
 
                     b.Navigation("Tags");
                 });

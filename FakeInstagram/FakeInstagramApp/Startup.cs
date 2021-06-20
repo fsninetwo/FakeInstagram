@@ -1,3 +1,4 @@
+using FakeInstagramBusinessLogic;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramMigrations;
 using FakeInstagramMigrations.Configurations;
@@ -27,22 +28,13 @@ namespace FakeInstagramApp
             services.AddControllers();
             services.AddSwaggerGen();
 
-            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            Console.WriteLine($"environmentName={environmentName}");
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true)
-                .AddJsonFile($"appsettings.{environmentName}.json", optional: true);
-
-            IConfigurationRoot configuration = builder.Build();
-
-            var settings = new AppSettings();
-            configuration.Bind(settings);
+            
+            var appSettings = AppSettingsConfiguration.GetAppSettings(
+                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), 
+                Directory.GetCurrentDirectory());
 
             services.AddDbContext<FakeInstagramContext>
-                (options => options.UseSqlServer(settings.ConnectionString));
+                (options => options.UseSqlServer(appSettings.ConnectionString));
             
             services.AddScoped<IPostRepository, PostRepository>();
         }
@@ -68,7 +60,9 @@ namespace FakeInstagramApp
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
