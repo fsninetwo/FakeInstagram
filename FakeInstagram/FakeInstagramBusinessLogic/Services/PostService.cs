@@ -37,9 +37,9 @@ namespace FakeInstagramBusinessLogic.Services
             _repository.Create(post);
         }
 
-        public PostViewModel Get(Guid id)
+        public PostViewModel GetById(Guid id)
         {
-            Post post = _repository.Get(id);
+            Post post = _repository.GetById(id);
             return _converter.ConvertToPostViewModel(post);
         }
 

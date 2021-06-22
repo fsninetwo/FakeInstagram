@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
@@ -12,7 +13,7 @@ namespace FakeInstagramEfModels.Entities
         [Required] 
         public string Email { get; set; }
 
-        [Required] 
+        [Required, JsonIgnore]
         public string Password { get; set; }
 
         public Guid Sol { get; set; }

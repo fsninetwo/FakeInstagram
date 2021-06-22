@@ -13,7 +13,7 @@ namespace FakeInstagramBusinessLogic.Repositories
     {
         void Create(Post post);
 
-        Post Get(Guid id);
+        Post GetById(Guid id);
 
         void UpdateTextPost(Post post);
 

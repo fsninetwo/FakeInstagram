@@ -1,3 +1,4 @@
+using FakeInstagramApp.Helpers;
 using FakeInstagramBusinessLogic;
 using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Repositories;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -23,14 +25,25 @@ namespace FakeInstagramApp
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            
             services.AddSwaggerGen();
 
-            
+            services.AddCors();
+            services.AddControllers();
+            // configure strongly typed settings object
+            services.Configure<FakeInstagramBusinessLogic.Helpers.AppSettings>(Configuration.GetSection("AppSettings"));
+
             var appSettings = AppSettingsConfiguration.GetAppSettings(
                 Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), 
                 Directory.GetCurrentDirectory());
@@ -41,6 +54,8 @@ namespace FakeInstagramApp
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPostConverter, PostConverter>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +76,14 @@ namespace FakeInstagramApp
             });
 
             app.UseRouting();
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            // custom jwt auth middleware
+            app.UseMiddleware<JWTMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

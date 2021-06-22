@@ -16,7 +16,7 @@ namespace FakeInstagramBusinessLogic.Services
 
         void CreatePostImageModel(CreatePostImageModel postImageModel);
 
-        PostViewModel Get(Guid id);
+        PostViewModel GetById(Guid id);
 
         void Delete(Guid id);
 

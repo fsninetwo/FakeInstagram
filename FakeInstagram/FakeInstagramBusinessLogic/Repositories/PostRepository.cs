@@ -27,7 +27,7 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context.SaveChanges();
         }
 
-        public Post Get(Guid id)
+        public Post GetById(Guid id)
         {
             Post post = _context.Posts.Include(p => p.PostAttribute).FirstOrDefault(post => post.Id == id);
             return post;
@@ -35,7 +35,7 @@ namespace FakeInstagramBusinessLogic.Repositories
 
         public void Delete(Guid id)
         {
-            Post post = Get(id);
+            Post post = GetById(id);
             _context.Posts.Remove(post);
             _context.SaveChanges();
         }
