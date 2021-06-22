@@ -1,7 +1,9 @@
 ﻿using FakeInstagramBusinessLogic.Repositories;
+using FakeInstagramBusinessLogic.Services;
 using FakeInstagramViewModels;
 using FakeInstagramViewModels.CreateModels;
 using FakeInstagramViewModels.UpdateModels;
+using FakeInstagramViewModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramApp.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class PostController : Controller
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostService _postService;
 
-        public PostController(IPostRepository postRepository)
+        public PostController(IPostService postService)
         {
-            _postRepository = postRepository;
+            _postService = postService;
         }
 
         /// <summary>
@@ -25,10 +27,9 @@ namespace FakeInstagramApp.Controllers
         /// </summary>
         /// <param name="postTextModel"></param>        
         [HttpPost]
-        [Route("CreateTextPost/")]
         public IActionResult CreateTextPost(CreatePostTextModel postTextModel)
         {
-            _postRepository.CreatePostTextModel(postTextModel);
+            _postService.CreatePostTextModel(postTextModel);
             return new OkResult();
         }
 
@@ -37,10 +38,9 @@ namespace FakeInstagramApp.Controllers
         /// </summary>
         /// <param name="postImageModel"></param>        
         [HttpPost]
-        [Route("CreateImagePost/")]
-        public IActionResult CreateTextPost(CreatePostImageModel postImageModel)
+        public IActionResult CreateImagePost(CreatePostImageModel postImageModel)
         {
-            _postRepository.CreatePostImageModel(postImageModel);
+            _postService.CreatePostImageModel(postImageModel);
             return new OkResult();
         }
 
@@ -49,10 +49,10 @@ namespace FakeInstagramApp.Controllers
         /// </summary>
         /// <param name="id"></param>        
         [HttpGet]
-        [Route("Get/{id}")]
+        [Route("{id}")]
         public IActionResult Get(Guid id)
         {
-            PostViewModel postViewModel = _postRepository.Get(id);
+            PostViewModel postViewModel = _postService.Get(id);
             return new JsonResult(postViewModel);
         }
 
@@ -61,10 +61,9 @@ namespace FakeInstagramApp.Controllers
         /// </summary>
         /// <param name="postTextModel"></param>      
         [HttpPut]
-        [Route("UpdatePostTextModel/")]
         public IActionResult UpdateTextPost(UpdatePostTextModel postTextModel)
         {
-            _postRepository.UpdatePostTextModel(postTextModel);
+            _postService.UpdatePostTextModel(postTextModel);
             return new OkResult();
         }
 
@@ -73,10 +72,9 @@ namespace FakeInstagramApp.Controllers
         /// </summary>
         /// <param name="postImageModel"></param>      
         [HttpPut]
-        [Route("UpdatePostImageModel/")]
         public IActionResult UpdateImagePost(UpdatePostImageModel postImageModel)
         {
-            _postRepository.UpdatePostImageModel(postImageModel);
+            _postService.UpdatePostImageModel(postImageModel);
             return new OkResult();
         }
 
@@ -85,10 +83,10 @@ namespace FakeInstagramApp.Controllers
         /// </summary>
         /// <param name="id"></param> 
         [HttpDelete]
-        [Route("Delete/{id}")]
+        [Route("{id}")]
         public IActionResult Delete(Guid id)
         {
-            _postRepository.Delete(id);
+            _postService.Delete(id);
             return new OkResult();
         }
     }

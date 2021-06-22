@@ -1,5 +1,7 @@
 using FakeInstagramBusinessLogic;
+using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Repositories;
+using FakeInstagramBusinessLogic.Services;
 using FakeInstagramMigrations;
 using FakeInstagramMigrations.Configurations;
 using Microsoft.AspNetCore.Builder;
@@ -35,8 +37,10 @@ namespace FakeInstagramApp
 
             services.AddDbContext<FakeInstagramContext>
                 (options => options.UseSqlServer(appSettings.ConnectionString));
-            
+
+            services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IPostConverter, PostConverter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

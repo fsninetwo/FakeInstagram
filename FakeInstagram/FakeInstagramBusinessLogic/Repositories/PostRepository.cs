@@ -21,56 +21,13 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void CreatePostTextModel(CreatePostTextModel postTextModel)
+        public void Create(Post post)
         {
-
-            Post post = new Post
-            {
-                Id = Guid.NewGuid(),
-                Header = postTextModel.Header,
-                User = _context.Users.Where(user => user.Email.Equals(postTextModel.UserEmail)).FirstOrDefault(),
-                PostAttribute = new PostTextAttribute()
-                {
-                    Id = Guid.NewGuid(),
-                    Text = postTextModel.PostTextAttribute.Text
-                }
-            };
             _context.Posts.Add(post);
             _context.SaveChanges();
         }
 
-        public void CreatePostImageModel(CreatePostImageModel postImageModel)
-        {
-
-            Post post = new Post
-            {
-                Id = Guid.NewGuid(),
-                Header = postImageModel.Header,
-                User = _context.Users.Where(user => user.Email.Equals(postImageModel.UserLogin)).FirstOrDefault(),
-                PostAttribute = new PostImageAttribute()
-                {
-                    Id = Guid.NewGuid(),
-                    Text = postImageModel.PostImageAttribute.Text,
-                    Image = new PostImage
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = postImageModel.PostImageAttribute.PostImage.Name,
-                        Link = postImageModel.PostImageAttribute.PostImage.Link
-                    }
-                }
-            };
-            _context.Posts.Add(post);
-            _context.SaveChanges();
-        }
-
-        public PostViewModel Get(Guid id)
-        {
-            Post post = GetPost(id);
-            //PostViewModel postViewModel = new PostViewModel { Id = post.Id };
-            return new PostViewModel { Id = post.Id };
-        }
-
-        public Post GetPost(Guid id)
+        public Post Get(Guid id)
         {
             Post post = _context.Posts.Include(p => p.PostAttribute).FirstOrDefault(post => post.Id == id);
             return post;
@@ -78,38 +35,38 @@ namespace FakeInstagramBusinessLogic.Repositories
 
         public void Delete(Guid id)
         {
-            Post post = GetPost(id);
-            //post.PostAttributes.Clear();
+            Post post = Get(id);
             _context.Posts.Remove(post);
             _context.SaveChanges();
         }
 
-        public void UpdatePostTextModel(UpdatePostTextModel postTextModel)
+        public void UpdateTextPost(Post post)
         {
-            Post post = GetPost(postTextModel.Id);
-            post.Header = postTextModel.Header;
-            post.User = _context.Users.Where(user => user.Email.Equals(postTextModel.UserEmail)).FirstOrDefault();
-            post.Updated = postTextModel.Updated;
-            PostTextAttribute postTextAttribute = (PostTextAttribute)post.PostAttribute;
-            postTextAttribute.Text = postTextModel.PostTextAttribute.Text;
-            post.PostAttribute = postTextAttribute;
-            _context.Posts.Update(post);
+            Post oldpost = _context.Posts.Where(post => post.Id == post.Id).FirstOrDefault();
+            oldpost.Header = post.Header;
+            oldpost.Updated = DateTime.Now;
+            PostTextAttribute oldAttribute = (PostTextAttribute)oldpost.PostAttribute;
+            PostTextAttribute newAttribute = (PostTextAttribute)oldpost.PostAttribute;
+            oldAttribute.Text = newAttribute.Text;
+            oldpost.PostAttribute = oldAttribute;
+            _context.Posts.Update(oldpost);
             _context.SaveChanges();
         }
 
-        public void UpdatePostImageModel(UpdatePostImageModel postImageModel)
+        public void UpdateImagePost(Post post)
         {
-            Post post = GetPost(postImageModel.Id);
-            post.Header = postImageModel.Header;
-            post.User = _context.Users.Where(user => user.Email.Equals(postImageModel.UserEmail)).FirstOrDefault();
-            post.Updated = postImageModel.Updated;
-            PostImageAttribute postImageAttribute = (PostImageAttribute)post.PostAttribute;
-            postImageAttribute.Text = postImageModel.PostImageAttribute.Text;
-            postImageAttribute.Image.Name = postImageModel.PostImageAttribute.PostImage.Name;
-            postImageAttribute.Image.Link = postImageModel.PostImageAttribute.PostImage.Link;
-            post.PostAttribute = postImageAttribute;
-            _context.Posts.Update(post);
+            Post oldpost = _context.Posts.Where(post => post.Id == post.Id).FirstOrDefault();
+            oldpost.Header = post.Header;
+            oldpost.Updated = DateTime.Now;
+            PostImageAttribute oldAttribute = (PostImageAttribute)oldpost.PostAttribute;
+            PostImageAttribute newAttribute = (PostImageAttribute)oldpost.PostAttribute;
+            oldAttribute.Text = newAttribute.Text;
+            oldAttribute.Image.Name = newAttribute.Image.Name;
+            oldAttribute.Image.Link = newAttribute.Image.Link;
+            oldpost.PostAttribute = oldAttribute;
+            _context.Posts.Update(oldpost);
             _context.SaveChanges();
         }
+
     }
 }

@@ -1,5 +1,5 @@
-﻿using FakeInstagramViewModels;
-using FakeInstagramViewModels.CreateModels;
+﻿using FakeInstagramEfModels.Entities;
+using FakeInstagramViewModels;
 using FakeInstagramViewModels.UpdateModels;
 using System;
 using System.Collections.Generic;
@@ -11,15 +11,13 @@ namespace FakeInstagramBusinessLogic.Repositories
 {
     public interface IPostRepository
     {
-        void CreatePostTextModel(CreatePostTextModel postTextModel);
+        void Create(Post post);
 
-        void CreatePostImageModel(CreatePostImageModel postImageModel);
+        Post Get(Guid id);
 
-        PostViewModel Get(Guid id);
+        void UpdateTextPost(Post post);
 
-        void UpdatePostTextModel(UpdatePostTextModel postTextModel);
-
-        void UpdatePostImageModel(UpdatePostImageModel postImageModel);
+        void UpdateImagePost(Post post);
 
         void Delete(Guid id);
     }

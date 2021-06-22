@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FakeInstagramViewModels
+namespace FakeInstagramViewModels.ViewModels
 {
     public class PostViewModel
     {

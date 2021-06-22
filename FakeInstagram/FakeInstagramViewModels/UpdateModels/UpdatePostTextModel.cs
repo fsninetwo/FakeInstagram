@@ -14,8 +14,6 @@ namespace FakeInstagramViewModels.UpdateModels
 
         public UpdatePostTextAttribute PostTextAttribute { get; set; }
 
-        public string UserEmail { get; set; }
-
-        public DateTime Updated { get; set; } = DateTime.Now;
+        public Guid UserId { get; set; }
     }
 }
