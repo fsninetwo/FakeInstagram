@@ -32,7 +32,7 @@ namespace FakeInstagramBusinessLogic.Repositories
 
         public User GetById(Guid id)
         {
-            User user = _context.Users.FirstOrDefault(user => user.Id == id);
+            User user = _context.Users.Include(role => role.UserRole).FirstOrDefault(user => user.Id == id);
             return user;
         }
     }

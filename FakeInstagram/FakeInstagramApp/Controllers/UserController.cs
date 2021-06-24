@@ -15,7 +15,7 @@ namespace FakeInstagramApp.Controllers
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService)
+        public UserController (IUserService userService)
         {
             _userService = userService;
         }
@@ -27,7 +27,6 @@ namespace FakeInstagramApp.Controllers
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
-
             return Ok(response);
         }
 

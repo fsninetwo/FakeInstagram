@@ -13,20 +13,13 @@ namespace FakeInstagramBusinessLogic.Converters
 {
     public class PostConverter : IPostConverter
     {
-        private readonly FakeInstagramContext _context;
-
-        public PostConverter(FakeInstagramContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
-
-        public Post ConvertToPost(CreatePostTextModel postTextModel)
+        public Post ConvertToPost(CreatePostTextModel postTextModel,User user)
         {
             Post post = new Post
             {
                 Id = Guid.NewGuid(),
                 Header = postTextModel.Header,
-                User = _context.Users.Where(user => user.Id == postTextModel.UserId).FirstOrDefault(),
+                User = user,
                 PostAttribute = new PostTextAttribute()
                 {
                     Id = Guid.NewGuid(),
@@ -36,13 +29,12 @@ namespace FakeInstagramBusinessLogic.Converters
             return post;
         }
 
-        public Post ConvertToPost(CreatePostImageModel postImageModel)
+        public Post ConvertToPost(CreatePostImageModel postImageModel, User user)
         {
             Post post = new Post
             {
                 Id = Guid.NewGuid(),
                 Header = postImageModel.Header,
-                User = _context.Users.Where(user => user.Id == postImageModel.UserId).FirstOrDefault(),
                 PostAttribute = new PostImageAttribute()
                 {
                     Id = Guid.NewGuid(),

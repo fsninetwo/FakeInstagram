@@ -1,6 +1,7 @@
 ﻿using FakeInstagramApp.Helpers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services;
+using FakeInstagramEfModels.Entities;
 using FakeInstagramViewModels;
 using FakeInstagramViewModels.CreateModels;
 using FakeInstagramViewModels.UpdateModels;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FakeInstagramApp.Controllers
@@ -28,7 +30,6 @@ namespace FakeInstagramApp.Controllers
         [HttpPost]
         public IActionResult CreateTextPost(CreatePostTextModel postTextModel)
         {
-            var user = HttpContext.User;
             _postService.CreatePostTextModel(postTextModel);
             return new OkResult();
         }

@@ -1,4 +1,5 @@
-﻿using FakeInstagramViewModels;
+﻿using FakeInstagramEfModels.Entities;
+using FakeInstagramViewModels;
 using FakeInstagramViewModels.CreateModels;
 using FakeInstagramViewModels.UpdateModels;
 using FakeInstagramViewModels.ViewModels;

@@ -17,7 +17,7 @@ namespace FakeInstagramBusinessLogic.Converters
             {
                 Id = user.Id,
                 Email = user.Email,
-                //UserRole = user.UserRole.Name
+                UserRole = user.UserRole.Name
             };
             return identity;
         }

@@ -61,13 +61,14 @@ namespace FakeInstagramApp.Helpers
                 var user = new ClaimsPrincipal(
                     new ClaimsIdentity(new Claim[]
                     {
-                        new Claim(ClaimTypes.Email, identity.Email),
+                        new Claim(ClaimTypes.Name, "User"),
                         new Claim(ClaimTypes.NameIdentifier, identity.Id.ToString()),
-                        //new Claim(ClaimTypes.Role, identity.UserRole),
-                    }, null));
+                        new Claim(ClaimTypes.Email, identity.Email),
+                        new Claim(ClaimTypes.Role, identity.UserRole),
+                    }, "tokenAuthorization"));
                 context.User = user;
 
-                context.Items["User"] = userService.GetById(userId);
+                //context.Items["User"] = userService.GetById(userId);
             }
             catch
             {

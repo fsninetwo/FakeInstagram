@@ -12,9 +12,9 @@ namespace FakeInstagramBusinessLogic.Converters
 {
     public interface IPostConverter
     {
-        Post ConvertToPost(CreatePostTextModel postTextModel);
+        Post ConvertToPost(CreatePostTextModel postTextModel, User user);
 
-        Post ConvertToPost(CreatePostImageModel postImageModel);
+        Post ConvertToPost(CreatePostImageModel postImageModel, User user);
 
         Post ConvertToPost(UpdatePostTextModel postTextModel);
 

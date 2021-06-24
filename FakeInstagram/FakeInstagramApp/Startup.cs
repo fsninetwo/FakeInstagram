@@ -1,6 +1,7 @@
 using FakeInstagramApp.Helpers;
 using FakeInstagramBusinessLogic;
 using FakeInstagramBusinessLogic.Converters;
+using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services;
 using FakeInstagramMigrations;
@@ -80,11 +81,14 @@ namespace FakeInstagramApp
 
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostRepository, PostRepository>();
-            services.AddScoped<IPostConverter, PostConverter>();
+            services.AddSingleton<IPostConverter, PostConverter>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<IUserConverter, UserConverter>();
+            services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
             services.AddSingleton<IAppSettings>(x => appSettings);
+
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

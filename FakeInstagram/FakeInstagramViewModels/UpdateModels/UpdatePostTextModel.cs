@@ -13,7 +13,5 @@ namespace FakeInstagramViewModels.UpdateModels
         public string Header { get; set; }
 
         public UpdatePostTextAttribute PostTextAttribute { get; set; }
-
-        public Guid UserId { get; set; }
     }
 }

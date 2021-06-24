@@ -1,4 +1,5 @@
 ﻿using FakeInstagramBusinessLogic.Converters;
+using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramEfModels.Entities;
 using FakeInstagramViewModels;
@@ -17,23 +18,26 @@ namespace FakeInstagramBusinessLogic.Services
     {
         private readonly IPostRepository _repository;
         private readonly IPostConverter _converter;
+        private readonly ICurrentUserProvider _userProvider;
 
-        public PostService(IPostRepository repository, IPostConverter converter)
+        public PostService(IPostRepository repository, IPostConverter converter, ICurrentUserProvider userProvider)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _converter = converter ?? throw new ArgumentNullException(nameof(converter));
+            _userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
         }
 
         public void CreatePostTextModel(CreatePostTextModel postTextModel)
         {
-
-            Post post = _converter.ConvertToPost(postTextModel);
+            User user = _userProvider.GetCurrentUser();
+            Post post = _converter.ConvertToPost(postTextModel, user);
             _repository.Create(post);
         }
 
         public void CreatePostImageModel(CreatePostImageModel postImageModel)
         {
-            Post post = _converter.ConvertToPost(postImageModel);
+            User user = _userProvider.GetCurrentUser();
+            Post post = _converter.ConvertToPost(postImageModel, user);
             _repository.Create(post);
         }
 

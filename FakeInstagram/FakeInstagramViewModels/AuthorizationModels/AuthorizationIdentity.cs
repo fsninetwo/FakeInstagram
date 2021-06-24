@@ -17,6 +17,5 @@ namespace FakeInstagramViewModels.AuthorizationModels
 
         public string UserRole { get; set; }
 
-
     }
 }
