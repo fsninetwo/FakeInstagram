@@ -1,10 +1,13 @@
 ﻿using FakeInstagramEfModels.Entities;
+using FakeInstagramViewModels.AuthorizationModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FakeInstagramApp.Helpers
@@ -14,12 +17,13 @@ namespace FakeInstagramApp.Helpers
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            User user = (User)context.HttpContext.Items["User"];
-            if(user == null)
+            var identity = context.HttpContext.User;
+            //User user = (User)context.HttpContext.Items["User"];
+            if (identity == null)
             {
-                context.Result = new JsonResult( new { message = "Unauthorized" }) 
-                { 
-                    StatusCode = StatusCodes.Status401Unauthorized 
+                context.Result = new JsonResult(new { message = "Unauthorized" })
+                {
+                    StatusCode = StatusCodes.Status401Unauthorized
                 };
             }
         }

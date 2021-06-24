@@ -1,5 +1,6 @@
 ﻿using FakeInstagramEfModels.Entities;
 using FakeInstagramMigrations;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace FakeInstagramBusinessLogic.Repositories
 
         public IEnumerable<User> GetAll()
         {
-            IEnumerable<User> user = _context.Users;
+            IEnumerable<User> user = _context.Users;//.Include(post => post.Posts);
             return user;
         }
 

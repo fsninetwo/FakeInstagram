@@ -1,6 +1,7 @@
-﻿using FakeInstagramBusinessLogic.Helpers;
-using FakeInstagramBusinessLogic.Services;
+﻿using FakeInstagramBusinessLogic.Services;
 using FakeInstagramEfModels.Entities;
+using FakeInstagramMigrations.Configurations;
+using FakeInstagramViewModels.AuthorizationModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,12 +19,12 @@ namespace FakeInstagramApp.Helpers
     public class JWTMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly AppSettings _appSettings;
+        private readonly IAppSettings _appSettings;
 
-        public JWTMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
+        public JWTMiddleware(RequestDelegate next, IAppSettings appSettings)
         {
             _next = next;
-            _appSettings = appSettings.Value;
+            _appSettings = appSettings;
         }
 
         public async Task Invoke(HttpContext context, IUserService userService)
@@ -53,10 +56,18 @@ namespace FakeInstagramApp.Helpers
 
                 JwtSecurityToken jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = Guid.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                AuthorizationIdentity identity = userService.GetIdentityById(userId);
+
+                var user = new ClaimsPrincipal(
+                    new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Email, identity.Email),
+                        new Claim(ClaimTypes.NameIdentifier, identity.Id.ToString()),
+                        //new Claim(ClaimTypes.Role, identity.UserRole),
+                    }, null));
+                context.User = user;
 
                 context.Items["User"] = userService.GetById(userId);
-
-                var items = context.Items["User"];
             }
             catch
             {

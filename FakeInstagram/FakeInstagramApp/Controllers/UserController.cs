@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace FakeInstagramApp.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -20,7 +20,7 @@ namespace FakeInstagramApp.Controllers
             _userService = userService;
         }
 
-        [HttpPost("authenticate")]
+        [HttpPost]
         public IActionResult Authenticate(AuthenticateRequest model)
         {
             var response = _userService.Authenticate(model);

@@ -9,20 +9,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using FakeInstagramViewModels.AuthorizationModels;
-using FakeInstagramBusinessLogic.Helpers;
+
 using FakeInstagramBusinessLogic.Repositories;
+using FakeInstagramMigrations.Configurations;
+using FakeInstagramBusinessLogic.Converters;
 
 namespace FakeInstagramBusinessLogic.Services
 {
     public class UserService : IUserService
     {
-        private readonly AppSettings _appSettings;
+        private readonly IAppSettings _appSettings;
         private readonly IUserRepository _repository;
+        private readonly IUserConverter _converter;
 
-        public UserService(IOptions<AppSettings> appSettings, IUserRepository repository)
+        public UserService(IAppSettings appSettings, IUserRepository repository, IUserConverter converter)
         {
-            _appSettings = appSettings.Value;
+            _appSettings = appSettings;
             _repository = repository;
+            _converter = converter;
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
@@ -59,6 +63,12 @@ namespace FakeInstagramBusinessLogic.Services
         public IEnumerable<User> GetAll()
         {
             return _repository.GetAll();
+        }
+
+        public AuthorizationIdentity GetIdentityById(Guid Id)
+        {
+            User user = _repository.GetById(Id);
+            return _converter.ConvertToAuthorizationIdentity(user);
         }
     }
 }

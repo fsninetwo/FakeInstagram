@@ -5,6 +5,7 @@ using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services;
 using FakeInstagramMigrations;
 using FakeInstagramMigrations.Configurations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -36,18 +37,44 @@ namespace FakeInstagramApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            
-            services.AddSwaggerGen();
 
+            services.AddSwaggerGen(c =>
+            {
+                // configure SwaggerDoc and others
+
+                // add JWT Authentication
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter JWT Bearer token **_only_**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer", // must be lower case
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            securityScheme, new string[] { }
+                        }
+                    });
+            });
             services.AddCors();
             services.AddControllers();
             // configure strongly typed settings object
-            services.Configure<FakeInstagramBusinessLogic.Helpers.AppSettings>(Configuration.GetSection("AppSettings"));
+            
 
             var appSettings = AppSettingsConfiguration.GetAppSettings(
                 Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), 
                 Directory.GetCurrentDirectory());
 
+            //services.Configure<FakeInstagramBusinessLogic.Helpers.AppSettings>(Configuration.GetSection("Secret"));
             services.AddDbContext<FakeInstagramContext>
                 (options => options.UseSqlServer(appSettings.ConnectionString));
 
@@ -56,6 +83,8 @@ namespace FakeInstagramApp
             services.AddScoped<IPostConverter, PostConverter>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddSingleton<IUserConverter, UserConverter>();
+            services.AddSingleton<IAppSettings>(x => appSettings);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

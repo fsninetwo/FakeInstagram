@@ -1,5 +1,8 @@
 ﻿using FakeInstagramEfModels.Entities;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FakeInstagramMigrations.Migrations
 {
@@ -9,10 +12,28 @@ namespace FakeInstagramMigrations.Migrations
         {
             var dbContextFactory = new FakeInstagramContextFactory();
             var context = dbContextFactory.CreateDbContext(null);
+            var roles = new List<UserRole>
+            {
+                new UserRole()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "User"
+                },
+                new UserRole()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Administrator"
+                }
+            };
+
+            context.AddRange(roles);
+            context.SaveChanges();
+
             var user = new User
             {
                 Email = "admin@admin.com",
-                Password = "12345678"
+                Password = "12345678",
+                UserRole = context.UserRoles.FirstOrDefault(role => role.Name.Equals("Administrator"))
             };
 
             context.Add(user);

@@ -2,6 +2,7 @@
 using FakeInstagramViewModels.AuthorizationModels;
 using System;
 using System.Collections.Generic;
+using System.Security.Principal;
 
 namespace FakeInstagramBusinessLogic.Services
 {
@@ -12,5 +13,7 @@ namespace FakeInstagramBusinessLogic.Services
         User GetById(Guid id);
 
         IEnumerable<User> GetAll();
+
+        AuthorizationIdentity GetIdentityById(Guid userId);
     }
 }

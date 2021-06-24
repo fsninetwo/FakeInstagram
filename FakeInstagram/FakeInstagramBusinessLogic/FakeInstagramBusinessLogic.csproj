@@ -11,6 +11,7 @@
     <ProjectReference Include="..\FakeInstagramEfModels\FakeInstagramEfModels.csproj" />
     <ProjectReference Include="..\FakeInstagramMigrations\FakeInstagramMigrations.csproj" />
     <ProjectReference Include="..\FakeInstagramViewModels\FakeInstagramViewModels.csproj" />
+    <Folder Include="Helpers\" />
     <Folder Include="Providers\" />
   </ItemGroup>
 
