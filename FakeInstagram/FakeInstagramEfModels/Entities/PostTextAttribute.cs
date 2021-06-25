@@ -11,7 +11,5 @@ namespace FakeInstagramEfModels.Entities
     public class PostTextAttribute : PostAttribute
     {
         public string Text { get; set; }
-
-        public Post Post { get; set; }
     }
 }

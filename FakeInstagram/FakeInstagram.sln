@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakeInstagramApp", "FakeIns
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakeInstagramMigrations", "FakeInstagramMigrations\FakeInstagramMigrations.csproj", "{E9C3A33D-080A-4397-8274-6F75F5FDE137}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakeInstagramBusinessLogic", "FakeInstagramBusinessLogic\FakeInstagramBusinessLogic.csproj", "{704B7AF6-014D-4F8F-BAAC-0593BE692FBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeInstagramViewModels", "FakeInstagramViewModels\FakeInstagramViewModels.csproj", "{6AEB98F3-8099-4998-9B87-DB611FB30E50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{E9C3A33D-080A-4397-8274-6F75F5FDE137}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9C3A33D-080A-4397-8274-6F75F5FDE137}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9C3A33D-080A-4397-8274-6F75F5FDE137}.Release|Any CPU.Build.0 = Release|Any CPU
+		{704B7AF6-014D-4F8F-BAAC-0593BE692FBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704B7AF6-014D-4F8F-BAAC-0593BE692FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{704B7AF6-014D-4F8F-BAAC-0593BE692FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{704B7AF6-014D-4F8F-BAAC-0593BE692FBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AEB98F3-8099-4998-9B87-DB611FB30E50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AEB98F3-8099-4998-9B87-DB611FB30E50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AEB98F3-8099-4998-9B87-DB611FB30E50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AEB98F3-8099-4998-9B87-DB611FB30E50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

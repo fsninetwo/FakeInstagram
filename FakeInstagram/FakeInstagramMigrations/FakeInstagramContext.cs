@@ -9,11 +9,7 @@ namespace FakeInstagramMigrations
 {
     public class FakeInstagramContext : DbContext
     {
-        public FakeInstagramContext()
-        {
-        }
-
-        public FakeInstagramContext(DbContextOptions options) : base(options)
+        public FakeInstagramContext(DbContextOptions<FakeInstagramContext> options) : base(options)
         {
 
         }
@@ -27,16 +23,5 @@ namespace FakeInstagramMigrations
         public DbSet<PostImageAttribute> PostImageAttributes { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Like> Likes { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //Code-First methods for creating and updating models
-            modelBuilder.Ignore<PostAttribute>();           
-        }
     }
 }

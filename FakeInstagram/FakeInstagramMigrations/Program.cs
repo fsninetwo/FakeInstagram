@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +13,12 @@ namespace FakeInstagramMigrations
         {
             var dbContextFactory = new FakeInstagramContextFactory();
             var context = dbContextFactory.CreateDbContext(args);
-
             Console.WriteLine("Migrating Database");
             context.Database.Migrate();
             Console.WriteLine("Migration Completed");
+            Console.WriteLine("Adding Data to Database");
+            
+            Console.WriteLine("Database data updated");
         }
     }
 }

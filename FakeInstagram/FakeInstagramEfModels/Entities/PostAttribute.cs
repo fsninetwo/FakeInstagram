@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramEfModels.Entities
 {
+    [Table("PostAttributes")]
     public abstract class PostAttribute : Entity
     {
 

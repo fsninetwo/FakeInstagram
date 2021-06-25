@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FakeInstagramMigrations": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "local"
+      }
+    }
+  }
+}
