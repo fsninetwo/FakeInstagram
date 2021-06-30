@@ -13,5 +13,9 @@ namespace FakeInstagramBusinessLogic.Providers
     public interface ICurrentUserProvider
     {
         User GetCurrentUser();
+
+        bool IsCurrentUserVerified();
+
+        bool IsCurrentUserAdministrator();
     }
 }

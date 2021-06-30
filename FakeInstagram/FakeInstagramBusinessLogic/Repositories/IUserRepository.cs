@@ -9,10 +9,12 @@ namespace FakeInstagramBusinessLogic.Repositories
 {
     public interface IUserRepository
     {
-        User GetByEmailAndPassword(string email, string password);
+        User GetUserByEmailAndPassword(string email, string password);
 
-        User GetById(Guid id);
+        User GetUserById(Guid id);
 
-        IEnumerable<User> GetAll();
+        void CreateUser(User user);
+
+        IEnumerable<User> GetAllUsers();
     }
 }

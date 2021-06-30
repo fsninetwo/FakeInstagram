@@ -21,12 +21,16 @@ namespace FakeInstagramEfModels.Entities
         [Required] 
         public DateTime Created { get; set; } = DateTime.Now;
 
+        [Required]
+        public bool IsVerified { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
         public UserStatus UserStatus { get; set; }
 
+        [Required]
         public UserRole UserRole { get; set; }
 
         public List<Post> Posts { get; set; }

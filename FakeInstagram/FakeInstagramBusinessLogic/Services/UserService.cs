@@ -13,6 +13,8 @@ using FakeInstagramViewModels.AuthorizationModels;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramMigrations.Configurations;
 using FakeInstagramBusinessLogic.Converters;
+using FakeInstagramViewModels.CreateModels;
+using FakeInstagramBusinessLogic.Providers;
 
 namespace FakeInstagramBusinessLogic.Services
 {
@@ -31,16 +33,16 @@ namespace FakeInstagramBusinessLogic.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            User user = _repository.GetByEmailAndPassword(model.Email, model.Password);
+            User user = _repository.GetUserByEmailAndPassword(model.Email, model.Password);
             if (user == null) return null;
             string token = generateJwtToken(user);
 
             return new AuthenticateResponse(user, token);
         }
 
-        public User GetById(Guid id)
+        public User GetUserById(Guid id)
         {
-            return _repository.GetById(id);
+            return _repository.GetUserById(id);
         }
 
         // helper methods
@@ -60,15 +62,21 @@ namespace FakeInstagramBusinessLogic.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<User> GetAllUsers()
         {
-            return _repository.GetAll();
+            return _repository.GetAllUsers();
         }
 
         public AuthorizationIdentity GetIdentityById(Guid Id)
         {
-            User user = _repository.GetById(Id);
+            User user = _repository.GetUserById(Id);
             return _converter.ConvertToAuthorizationIdentity(user);
+        }
+
+        public void CreateUser(CreateUserModel userModel)
+        {
+            User user = _converter.ConvertToUser(userModel);
+            _repository.CreateUser(user);
         }
     }
 }

@@ -1,4 +1,5 @@
-using FakeInstagramApp.Helpers;
+
+using FakeInstagramApp.Middlewares;
 using FakeInstagramBusinessLogic;
 using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Providers;
@@ -96,8 +97,12 @@ namespace FakeInstagramApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                
+                app.UseDeveloperExceptionPage();  
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
 
             app.UseSwagger();
@@ -110,10 +115,10 @@ namespace FakeInstagramApp
 
             app.UseRouting();
 
-            app.UseCors(x => x
+            /*app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader());*/
 
             // custom jwt auth middleware
             app.UseMiddleware<JWTMiddleware>();

@@ -1,4 +1,5 @@
-﻿using FakeInstagramApp.Helpers;
+﻿using FakeInstagramApp.Attributes;
+using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services;
 using FakeInstagramEfModels.Entities;
@@ -21,10 +22,12 @@ namespace FakeInstagramApp.Controllers
     public class PostController : Controller
     {
         private readonly IPostService _postService;
+        private readonly ICurrentUserProvider _provider;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, ICurrentUserProvider provider)
         {
             _postService = postService;
+            _provider = provider;
         }
        
         [HttpPost]
@@ -61,7 +64,7 @@ namespace FakeInstagramApp.Controllers
         {
             _postService.UpdatePostImageModel(postImageModel);
             return new OkResult();
-        }
+}
 
         [HttpDelete]
         [Route("{id}")]

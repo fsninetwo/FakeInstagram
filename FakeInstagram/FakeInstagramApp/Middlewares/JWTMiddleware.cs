@@ -14,7 +14,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FakeInstagramApp.Helpers
+namespace FakeInstagramApp.Middlewares
 {
     public class JWTMiddleware
     {
@@ -61,9 +61,10 @@ namespace FakeInstagramApp.Helpers
                 var user = new ClaimsPrincipal(
                     new ClaimsIdentity(new Claim[]
                     {
-                        new Claim(ClaimTypes.Name, "User"),
+                        new Claim(ClaimTypes.Name, $"User: {token}"),
                         new Claim(ClaimTypes.NameIdentifier, identity.Id.ToString()),
                         new Claim(ClaimTypes.Email, identity.Email),
+                        //new Claim("isVerified", identity.IsVerified),
                         new Claim(ClaimTypes.Role, identity.UserRole),
                     }, "tokenAuthorization"));
                 context.User = user;

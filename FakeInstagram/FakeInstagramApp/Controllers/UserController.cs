@@ -1,6 +1,8 @@
-﻿using FakeInstagramApp.Helpers;
+﻿using FakeInstagramApp.Attributes;
+using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Services;
 using FakeInstagramViewModels.AuthorizationModels;
+using FakeInstagramViewModels.CreateModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,12 @@ namespace FakeInstagramApp.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ICurrentUserProvider _currentUserProvider;
 
-        public UserController (IUserService userService)
+        public UserController (IUserService userService, ICurrentUserProvider currentUserProvider)
         {
             _userService = userService;
+            _currentUserProvider = currentUserProvider;
         }
 
         [HttpPost]
@@ -34,8 +38,22 @@ namespace FakeInstagramApp.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var users = _userService.GetAll();
-            return Ok(users);
+            if (_currentUserProvider.IsCurrentUserAdministrator())
+            {
+                var users = _userService.GetAllUsers();
+                return Ok(users);
+            }
+            else
+            {
+                return BadRequest("User is not administrator!");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CreateUser(CreateUserModel userModel)
+        {
+            _userService.CreateUser(userModel);
+            return Ok(userModel);
         }
     }
 }

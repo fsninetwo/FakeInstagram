@@ -15,6 +15,8 @@ namespace FakeInstagramViewModels.AuthorizationModels
 
         public string Email { get; set; }
 
+        public bool IsVerified { get; set; }
+
         public string UserRole { get; set; }
 
     }

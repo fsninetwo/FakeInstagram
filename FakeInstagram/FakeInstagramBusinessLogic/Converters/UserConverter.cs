@@ -1,6 +1,7 @@
 ﻿using FakeInstagramEfModels.Entities;
 using FakeInstagramMigrations;
 using FakeInstagramViewModels.AuthorizationModels;
+using FakeInstagramViewModels.CreateModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,17 @@ namespace FakeInstagramBusinessLogic.Converters
                 UserRole = user.UserRole.Name
             };
             return identity;
+        }
+
+        public User ConvertToUser(CreateUserModel userModel)
+        {
+            User user = new User
+            {
+                Id = Guid.NewGuid(),
+                Email = userModel.Email,
+                Password = userModel.Password
+            };
+            return user;
         }
     }
 }

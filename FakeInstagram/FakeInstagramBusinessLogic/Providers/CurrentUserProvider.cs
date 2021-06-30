@@ -27,13 +27,31 @@ namespace FakeInstagramBusinessLogic.Providers
             try
             {
                 Guid id = Guid.Parse(_context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                User user = _userService.GetById(id);
+                User user = _userService.GetUserById(id);
                 return user;
             }
             catch (NullReferenceException)
             {
                 return null;
             }
-        }     
+        }
+
+        public bool IsCurrentUserAdministrator()
+        {
+            return _context.HttpContext.User.FindFirst(ClaimTypes.Role).Value == "Administrator";
+        }
+
+        public bool IsCurrentUserVerified()
+        {
+            try
+            {
+                bool isAuthetticated = _context.HttpContext.User.Identity.IsAuthenticated;
+                return isAuthetticated;
+            }
+            catch (NullReferenceException)
+            {
+                return false;
+            }
+        }
     }
 }

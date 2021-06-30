@@ -8,10 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <None Remove="Helpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FakeInstagramEfModels\FakeInstagramEfModels.csproj" />
     <ProjectReference Include="..\FakeInstagramMigrations\FakeInstagramMigrations.csproj" />
     <ProjectReference Include="..\FakeInstagramViewModels\FakeInstagramViewModels.csproj" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
 
   <ItemGroup>
