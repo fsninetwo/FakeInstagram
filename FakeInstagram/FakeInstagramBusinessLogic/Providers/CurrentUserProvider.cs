@@ -24,16 +24,14 @@ namespace FakeInstagramBusinessLogic.Providers
 
         public User GetCurrentUser()
         {
-            try
-            {
-                Guid id = Guid.Parse(_context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                User user = _userService.GetUserById(id);
-                return user;
-            }
-            catch (NullReferenceException)
-            {
-                return null;
-            }
+            Guid id = Guid.Parse(_context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return _userService.GetUserById(id);
+        }
+
+        public bool IsCurrentUserCreator(Guid userId)
+        {
+            Guid currentUserId = Guid.Parse(_context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return userId == currentUserId;
         }
     }
 }

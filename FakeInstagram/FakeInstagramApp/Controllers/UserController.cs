@@ -5,6 +5,7 @@ using FakeInstagramViewModels.AuthorizationModels;
 using FakeInstagramViewModels.CreateModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace FakeInstagramApp.Controllers
     {
         private readonly IUserService _userService;
         private readonly ICurrentUserProvider _currentUserProvider;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController (IUserService userService, ICurrentUserProvider currentUserProvider)
+        public UserController (IUserService userService, ICurrentUserProvider currentUserProvider, ILogger<UserController> logger)
         {
             _userService = userService;
             _currentUserProvider = currentUserProvider;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -40,6 +43,7 @@ namespace FakeInstagramApp.Controllers
         public IActionResult GetAll()
         {
             var users = _userService.GetAllUsers();
+            _logger.LogInformation("Users are taken");
             return Ok(users);
         }
 

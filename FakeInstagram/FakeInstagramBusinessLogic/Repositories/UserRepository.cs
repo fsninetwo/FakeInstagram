@@ -34,7 +34,8 @@ namespace FakeInstagramBusinessLogic.Repositories
 
         public User GetUserByEmailAndPassword(string email, string password)
         {
-            User user = _context.Users.FirstOrDefault(user => user.Email.Equals(email) && user.Password.Equals(password));
+            User user = _context.Users.Include(role => role.UserRole)
+                .FirstOrDefault(user => user.Email.Equals(email) && user.Password.Equals(password));
             return user;
         }
 
