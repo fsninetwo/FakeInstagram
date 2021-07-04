@@ -1,5 +1,4 @@
-﻿using FakeInstagramApp.Attributes;
-using FakeInstagramBusinessLogic.Providers;
+﻿using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services;
 using FakeInstagramEfModels.Entities;
@@ -7,19 +6,21 @@ using FakeInstagramViewModels;
 using FakeInstagramViewModels.CreateModels;
 using FakeInstagramViewModels.UpdateModels;
 using FakeInstagramViewModels.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+//using FakeInstagramApp.Attributes;
 
 namespace FakeInstagramApp.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("[controller]/[action]")]
-    public class PostController : Controller
+    public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
         private readonly ICurrentUserProvider _provider;

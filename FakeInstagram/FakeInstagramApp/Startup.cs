@@ -15,13 +15,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FakeInstagramApp
@@ -67,14 +71,33 @@ namespace FakeInstagramApp
                         }
                     });
             });
+            // configure strongly typed settings object
+            var appSettings = AppSettingsConfiguration.GetAppSettings(
+                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
+                Directory.GetCurrentDirectory());
+
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             services.AddCors();
             services.AddControllers();
-            // configure strongly typed settings object
             
-
-            var appSettings = AppSettingsConfiguration.GetAppSettings(
-                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), 
-                Directory.GetCurrentDirectory());
 
             //services.Configure<FakeInstagramBusinessLogic.Helpers.AppSettings>(Configuration.GetSection("Secret"));
             services.AddDbContext<FakeInstagramContext>
@@ -105,6 +128,8 @@ namespace FakeInstagramApp
                 app.UseHsts();
             }
 
+            
+            app.UseSerilogRequestLogging();
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -113,15 +138,20 @@ namespace FakeInstagramApp
                 c.RoutePrefix = string.Empty;
             });
 
+            
             app.UseRouting();
+            
 
-            /*app.UseCors(x => x
+            app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader());*/
+                .AllowAnyHeader());
 
             // custom jwt auth middleware
-            app.UseMiddleware<JWTMiddleware>();
+            //app.UseMiddleware<JWTMiddleware>();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -35,23 +35,5 @@ namespace FakeInstagramBusinessLogic.Providers
                 return null;
             }
         }
-
-        public bool IsCurrentUserAdministrator()
-        {
-            return _context.HttpContext.User.FindFirst(ClaimTypes.Role).Value == "Administrator";
-        }
-
-        public bool IsCurrentUserVerified()
-        {
-            try
-            {
-                bool isAuthetticated = _context.HttpContext.User.Identity.IsAuthenticated;
-                return isAuthetticated;
-            }
-            catch (NullReferenceException)
-            {
-                return false;
-            }
-        }
     }
 }
