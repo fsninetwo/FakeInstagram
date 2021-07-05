@@ -18,19 +18,28 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IEnumerable<User> GetAll()
+        public void CreateUser(User user)
+        {
+            user.UserRole = _context.UserRoles.FirstOrDefault(role => role.Name.Equals("User"));
+            user.IsVerified = false;
+            _context.Add(user);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<User> GetAllUsers()
         {
             IEnumerable<User> user = _context.Users;//.Include(post => post.Posts);
             return user;
         }
 
-        public User GetByEmailAndPassword(string email, string password)
+        public User GetUserByEmailAndPassword(string email, string password)
         {
-            User user = _context.Users.FirstOrDefault(user => user.Email.Equals(email) && user.Password.Equals(password));
+            User user = _context.Users.Include(role => role.UserRole)
+                .FirstOrDefault(user => user.Email.Equals(email) && user.Password.Equals(password));
             return user;
         }
 
-        public User GetById(Guid id)
+        public User GetUserById(Guid id)
         {
             User user = _context.Users.Include(role => role.UserRole).FirstOrDefault(user => user.Id == id);
             return user;

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramViewModels.CreateModels
 {
-    class CreateUserModel
+    public class CreateUserModel
     {
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
+        public string ConfirmPassword { get; set; }
     }
 }

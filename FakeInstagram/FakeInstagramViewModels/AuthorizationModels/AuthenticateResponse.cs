@@ -11,9 +11,7 @@ namespace FakeInstagramViewModels.AuthorizationModels
     {
         public Guid Id { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        public string Role { get; set; }
 
         public string Email { get; set; }
 
@@ -22,8 +20,7 @@ namespace FakeInstagramViewModels.AuthorizationModels
         public AuthenticateResponse(User user, string token)
         {
             Id = user.Id;
-            FirstName = user.FirstName;
-            LastName = user.LastName;
+            Role = user.UserRole.Name;
             Email = user.Email;
             Token = token;
         }

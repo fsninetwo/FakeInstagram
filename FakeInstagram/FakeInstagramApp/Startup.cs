@@ -1,4 +1,4 @@
-using FakeInstagramApp.Helpers;
+using FakeInstagramApp.Middlewares;
 using FakeInstagramBusinessLogic;
 using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Providers;
@@ -14,13 +14,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FakeInstagramApp
@@ -66,15 +70,33 @@ namespace FakeInstagramApp
                         }
                     });
             });
-            services.AddCors();
-            services.AddControllers();
             // configure strongly typed settings object
-            
-
             var appSettings = AppSettingsConfiguration.GetAppSettings(
-                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), 
+                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
                 Directory.GetCurrentDirectory());
 
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            services.AddCors();
+            services.AddControllers();
+            
             //services.Configure<FakeInstagramBusinessLogic.Helpers.AppSettings>(Configuration.GetSection("Secret"));
             services.AddDbContext<FakeInstagramContext>
                 (options => options.UseSqlServer(appSettings.ConnectionString));
@@ -86,6 +108,7 @@ namespace FakeInstagramApp
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<IUserConverter, UserConverter>();
             services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+            services.AddSingleton<IValidateService, ValidateService>();
             services.AddSingleton<IAppSettings>(x => appSettings);
 
             services.AddHttpContextAccessor();
@@ -96,12 +119,17 @@ namespace FakeInstagramApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                
+                app.UseDeveloperExceptionPage();  
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
 
+            
+            app.UseSerilogRequestLogging();
             app.UseSwagger();
-
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("swagger/v1/swagger.json", "API V1");
@@ -109,6 +137,18 @@ namespace FakeInstagramApp
             });
 
             app.UseRouting();
+            
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            // custom jwt auth middleware
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseCors(x => x
                 .AllowAnyOrigin()

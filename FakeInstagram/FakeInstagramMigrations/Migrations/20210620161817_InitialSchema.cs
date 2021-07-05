@@ -71,6 +71,7 @@ namespace FakeInstagramMigrations.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sol = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsVerified = table.Column<bool>(type: "bit", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserStatus = table.Column<int>(type: "int", nullable: false),

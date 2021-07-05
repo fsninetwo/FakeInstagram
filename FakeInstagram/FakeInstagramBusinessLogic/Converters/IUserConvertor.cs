@@ -15,5 +15,6 @@ namespace FakeInstagramBusinessLogic.Converters
     public interface IUserConverter
     {
         AuthorizationIdentity ConvertToAuthorizationIdentity(User user);
+        User ConvertToUser(CreateUserModel userModel);
     }
 }

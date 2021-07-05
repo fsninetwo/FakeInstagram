@@ -1,7 +1,10 @@
-﻿using FakeInstagramApp.Helpers;
+using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Services;
 using FakeInstagramViewModels.AuthorizationModels;
+using FakeInstagramViewModels.CreateModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +14,17 @@ namespace FakeInstagramApp.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ICurrentUserProvider _currentUserProvider;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController (IUserService userService)
+        public UserController (IUserService userService, ICurrentUserProvider currentUserProvider, ILogger<UserController> logger)
         {
             _userService = userService;
+            _currentUserProvider = currentUserProvider;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -30,12 +37,20 @@ namespace FakeInstagramApp.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public IActionResult GetAll()
         {
-            var users = _userService.GetAll();
+            var users = _userService.GetAllUsers();
+            _logger.LogInformation("User made a GetUsers request");
             return Ok(users);
+        }
+
+        [HttpPost]
+        public IActionResult CreateUser(CreateUserModel userModel)
+        {
+            _userService.CreateUser(userModel);
+            return Ok(userModel);
         }
     }
 }

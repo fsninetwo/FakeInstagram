@@ -33,7 +33,8 @@ namespace FakeInstagramMigrations.Migrations
             {
                 Email = "admin@admin.com",
                 Password = "12345678",
-                UserRole = context.UserRoles.FirstOrDefault(role => role.Name.Equals("Administrator"))
+                UserRole = context.UserRoles.FirstOrDefault(role => role.Name.Equals("Administrator")),
+                IsVerified = true
             };
 
             context.Add(user);

@@ -60,6 +60,8 @@ namespace FakeInstagramMigrations.Migrations
                     b.HasKey("Id");
                     b.HasIndex("PostAttributeId");
 
+                    b.HasIndex("PostAttributeId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
@@ -75,6 +77,7 @@ namespace FakeInstagramMigrations.Migrations
 
                     b.ToTable("PostAttributes");
                 });
+                
             modelBuilder.Entity("FakeInstagramEfModels.Entities.PostImage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -180,6 +183,7 @@ namespace FakeInstagramMigrations.Migrations
 
                     b.ToTable("PostTextAttributes");
                 });
+
             modelBuilder.Entity("FakeInstagramEfModels.Entities.PostImageAttribute", b =>
                 {
                     b.HasBaseType("FakeInstagramEfModels.Entities.PostTextAttribute");
@@ -242,7 +246,7 @@ namespace FakeInstagramMigrations.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
-                
+
             modelBuilder.Entity("FakeInstagramEfModels.Entities.PostImageAttribute", b =>
                 {
                     b.HasOne("FakeInstagramEfModels.Entities.PostTextAttribute", null)

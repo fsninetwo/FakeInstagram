@@ -13,6 +13,8 @@ using FakeInstagramViewModels.AuthorizationModels;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramMigrations.Configurations;
 using FakeInstagramBusinessLogic.Converters;
+using FakeInstagramViewModels.CreateModels;
+using FakeInstagramBusinessLogic.Providers;
 
 namespace FakeInstagramBusinessLogic.Services
 {
@@ -31,44 +33,53 @@ namespace FakeInstagramBusinessLogic.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            User user = _repository.GetByEmailAndPassword(model.Email, model.Password);
-            if (user == null) return null;
-            string token = generateJwtToken(user);
+            var user = _repository.GetUserByEmailAndPassword(model.Email, model.Password);
 
-            return new AuthenticateResponse(user, token);
-        }
+            // return null if user not found
+            if (user == null)
+                return null;
 
-        public User GetById(Guid id)
-        {
-            return _repository.GetById(id);
-        }
-
-        // helper methods
-
-        private string generateJwtToken(User user)
-        {
-            // generate token that is valid for 7 days
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            // authentication successful so generate jwt token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, $"User"),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, user.UserRole.Name),
+                }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return new AuthenticateResponse(user, tokenHandler.WriteToken(token));
         }
 
-        public IEnumerable<User> GetAll()
+        public User GetUserById(Guid id)
         {
-            return _repository.GetAll();
+            return _repository.GetUserById(id);
+        }
+
+        // helper methods
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _repository.GetAllUsers();
         }
 
         public AuthorizationIdentity GetIdentityById(Guid Id)
         {
-            User user = _repository.GetById(Id);
+            User user = _repository.GetUserById(Id);
             return _converter.ConvertToAuthorizationIdentity(user);
+        }
+
+        public void CreateUser(CreateUserModel userModel)
+        {
+            User user = _converter.ConvertToUser(userModel);
+            _repository.CreateUser(user);
         }
     }
 }
