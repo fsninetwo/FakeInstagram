@@ -110,6 +110,7 @@ namespace FakeInstagramApp
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<IUserConverter, UserConverter>();
             services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+            services.AddSingleton<IValidateService, ValidateService>();
             services.AddSingleton<IAppSettings>(x => appSettings);
 
             services.AddHttpContextAccessor();
@@ -148,7 +149,7 @@ namespace FakeInstagramApp
                 .AllowAnyHeader());
 
             // custom jwt auth middleware
-            //app.UseMiddleware<JWTMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();

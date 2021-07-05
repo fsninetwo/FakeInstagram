@@ -19,16 +19,20 @@ namespace FakeInstagramBusinessLogic.Services
         private readonly IPostRepository _repository;
         private readonly IPostConverter _converter;
         private readonly ICurrentUserProvider _userProvider;
+        private readonly IValidateService _validateService;
 
-        public PostService(IPostRepository repository, IPostConverter converter, ICurrentUserProvider userProvider)
+        public PostService(IPostRepository repository, IPostConverter converter, ICurrentUserProvider userProvider,
+            IValidateService validateService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _converter = converter ?? throw new ArgumentNullException(nameof(converter));
             _userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
+            _validateService = validateService ?? throw new ArgumentNullException(nameof(validateService));
         }
 
         public void CreatePostTextModel(CreatePostTextModel postTextModel)
         {
+            _validateService.Validate(postTextModel);
             User user = _userProvider.GetCurrentUser();
             Post post = _converter.ConvertToPost(postTextModel, user);
             _repository.Create(post);

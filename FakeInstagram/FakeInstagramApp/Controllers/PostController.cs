@@ -65,7 +65,7 @@ namespace FakeInstagramApp.Controllers
         {
             _postService.UpdatePostImageModel(postImageModel);
             return new OkResult();
-}
+        }
 
         [HttpDelete]
         [Route("{id}")]

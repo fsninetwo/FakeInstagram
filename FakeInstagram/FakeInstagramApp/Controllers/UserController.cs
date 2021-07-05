@@ -43,7 +43,7 @@ namespace FakeInstagramApp.Controllers
         public IActionResult GetAll()
         {
             var users = _userService.GetAllUsers();
-            _logger.LogInformation("Users are taken");
+            _logger.LogInformation("User made a GetUsers request");
             return Ok(users);
         }
 
