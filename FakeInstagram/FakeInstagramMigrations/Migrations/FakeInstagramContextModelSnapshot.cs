@@ -58,6 +58,7 @@ namespace FakeInstagramMigrations.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+                    b.HasIndex("PostAttributeId");
 
                     b.HasIndex("PostAttributeId");
 
@@ -76,7 +77,7 @@ namespace FakeInstagramMigrations.Migrations
 
                     b.ToTable("PostAttributes");
                 });
-
+                
             modelBuilder.Entity("FakeInstagramEfModels.Entities.PostImage", b =>
                 {
                     b.Property<Guid>("Id")

@@ -21,7 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\FakeInstagramBusinessLogic\FakeInstagramBusinessLogic.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Attributes\" />
   </ItemGroup>
