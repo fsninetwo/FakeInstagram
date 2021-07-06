@@ -29,7 +29,7 @@ namespace FakeInstagramApp.Middlewares
             {
                 await _next(context);
             }
-            catch(PostException PostEx)
+            catch(PostValidationException PostEx)
             {
                 await HandleExceptionAsync(context, PostEx, HttpStatusCode.BadRequest);
             }
@@ -39,7 +39,7 @@ namespace FakeInstagramApp.Middlewares
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)httpStatus;
-            await context.Response.WriteAsync(new ErrorDetails()
+            await context.Response.WriteAsync(new ErrorModel()
             {
                 StatusCode = context.Response.StatusCode,
                 Message = ex.Message

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Exceptions
 {
-    public class PostException : NullReferenceException
+    public class PostValidationException : Exception
     {
-        public PostException(string message) : base(message)
+        public PostValidationException(string message) : base(message)
         {
 
         }

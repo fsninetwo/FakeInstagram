@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Services
 {
-    public interface IValidateService
+    public interface IValidationService
     {
         void Validate(CreatePostTextModel createPostTextModel);
     }

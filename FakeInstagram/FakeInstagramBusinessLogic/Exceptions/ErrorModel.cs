@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Exceptions
 {
-    public class ErrorDetails
+    public class ErrorModel
     {
         public int StatusCode { get; set; }
         public string Message { get; set; }
