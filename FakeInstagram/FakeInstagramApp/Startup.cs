@@ -1,4 +1,3 @@
-
 using FakeInstagramApp.Middlewares;
 using FakeInstagramBusinessLogic;
 using FakeInstagramBusinessLogic.Converters;
@@ -98,7 +97,6 @@ namespace FakeInstagramApp
             services.AddCors();
             services.AddControllers();
             
-
             //services.Configure<FakeInstagramBusinessLogic.Helpers.AppSettings>(Configuration.GetSection("Secret"));
             services.AddDbContext<FakeInstagramContext>
                 (options => options.UseSqlServer(appSettings.ConnectionString));
@@ -128,14 +126,12 @@ namespace FakeInstagramApp
 
             app.UseSerilogRequestLogging();
             app.UseSwagger();
-
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("swagger/v1/swagger.json", "API V1");
                 c.RoutePrefix = string.Empty;
             });
 
-            
             app.UseRouting();
             
 
@@ -149,6 +145,14 @@ namespace FakeInstagramApp
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            // custom jwt auth middleware
+            app.UseMiddleware<JWTMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

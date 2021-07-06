@@ -1,4 +1,4 @@
-﻿using FakeInstagramBusinessLogic.Providers;
+using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services;
 using FakeInstagramEfModels.Entities;
@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-//using FakeInstagramApp.Attributes;
 
 namespace FakeInstagramApp.Controllers
 {
