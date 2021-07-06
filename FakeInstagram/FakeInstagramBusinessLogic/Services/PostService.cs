@@ -32,17 +32,20 @@ namespace FakeInstagramBusinessLogic.Services
 
         public void CreatePostTextModel(CreatePostTextModel postTextModel)
         {
-            _validateService.Validate(postTextModel);
+            _validateService.ValidateCreatePostTextModel(postTextModel);
             User user = _userProvider.GetCurrentUser();
+            _validateService.ValidateUser(user);
             Post post = _converter.ConvertToPost(postTextModel, user);
-            _repository.Create(post);
+            _repository.CreatePost(post);
         }
 
         public void CreatePostImageModel(CreatePostImageModel postImageModel)
         {
+            _validateService.ValidateCreatePostImageModel(postImageModel);
             User user = _userProvider.GetCurrentUser();
+            _validateService.ValidateUser(user);
             Post post = _converter.ConvertToPost(postImageModel, user);
-            _repository.Create(post);
+            _repository.CreatePost(post);
         }
 
         public PostViewModel GetById(Guid id)

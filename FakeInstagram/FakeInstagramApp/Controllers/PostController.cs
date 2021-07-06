@@ -46,7 +46,7 @@ namespace FakeInstagramApp.Controllers
   
         [HttpGet]
         [Route("{id}")]
-        public IActionResult Get(Guid id)
+        public ActionResult<PostViewModel> Get(Guid id)
         {
             PostViewModel postViewModel = _postService.GetById(id);
             return new JsonResult(postViewModel);

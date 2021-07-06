@@ -29,7 +29,11 @@ namespace FakeInstagramApp.Middlewares
             {
                 await _next(context);
             }
-            catch(PostValidationException PostEx)
+            catch (ArgumentNullException PostArg)
+            {
+                await HandleExceptionAsync(context, PostArg, HttpStatusCode.BadRequest);
+            }
+            catch (PostValidationException PostEx)
             {
                 await HandleExceptionAsync(context, PostEx, HttpStatusCode.BadRequest);
             }

@@ -21,8 +21,20 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Create(Post post)
+        public void CreatePost(Post post)
         {
+            DateTime currentDate = DateTime.Now;
+            post.Id = Guid.NewGuid();
+            post.PostAttribute.Id = Guid.NewGuid();
+            post.Created = currentDate;
+            if(post.PostAttribute is PostImageAttribute)
+            {
+                PostImageAttribute attribute = (PostImageAttribute)post.PostAttribute;
+                attribute.Image.Id = Guid.NewGuid();
+                attribute.Image.Uploaded = currentDate;
+                post.PostAttribute = attribute;
+
+            }
             _context.Posts.Add(post);
             _context.SaveChanges();
         }

@@ -11,7 +11,7 @@ namespace FakeInstagramBusinessLogic.Repositories
 {
     public interface IPostRepository
     {
-        void Create(Post post);
+        void CreatePost(Post post);
 
         Post GetById(Guid id);
 

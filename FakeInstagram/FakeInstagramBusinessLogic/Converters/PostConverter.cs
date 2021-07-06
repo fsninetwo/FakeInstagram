@@ -17,12 +17,10 @@ namespace FakeInstagramBusinessLogic.Converters
         {
             Post post = new Post
             {
-                Id = Guid.NewGuid(),
                 Header = postTextModel.Header,
                 User = user,
                 PostAttribute = new PostTextAttribute()
                 {
-                    Id = Guid.NewGuid(),
                     Text = postTextModel.PostTextAttribute.Text
                 }
             };
@@ -33,17 +31,15 @@ namespace FakeInstagramBusinessLogic.Converters
         {
             Post post = new Post
             {
-                Id = Guid.NewGuid(),
                 Header = postImageModel.Header,
+                User = user,
                 PostAttribute = new PostImageAttribute()
                 {
-                    Id = Guid.NewGuid(),
                     Text = postImageModel.PostImageAttribute.Text,
                     Image = new PostImage
                     {
-                        Id = Guid.NewGuid(),
                         Name = postImageModel.PostImageAttribute.PostImage.Name,
-                        Link = postImageModel.PostImageAttribute.PostImage.Link
+                        Link = postImageModel.PostImageAttribute.PostImage.Link,
                     }
                 }
             };

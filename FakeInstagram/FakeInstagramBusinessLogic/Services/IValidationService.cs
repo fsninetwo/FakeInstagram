@@ -1,4 +1,5 @@
-﻿using FakeInstagramViewModels.CreateModels;
+﻿using FakeInstagramEfModels.Entities;
+using FakeInstagramViewModels.CreateModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace FakeInstagramBusinessLogic.Services
 {
     public interface IValidationService
     {
-        void Validate(CreatePostTextModel createPostTextModel);
+        void ValidateCreatePostTextModel(CreatePostTextModel createPostTextModel);
+
+        void ValidateCreatePostImageModel(CreatePostImageModel createPostImageModel);
+
+        void ValidateUser(User user);
     }
 }
