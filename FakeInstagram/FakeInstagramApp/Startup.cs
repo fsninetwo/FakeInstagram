@@ -4,7 +4,7 @@ using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services;
-using FakeInstagramBusinessLogic.Services.ValidationServices;
+using FakeInstagramBusinessLogic.Services.Validation;
 using FakeInstagramMigrations;
 using FakeInstagramMigrations.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

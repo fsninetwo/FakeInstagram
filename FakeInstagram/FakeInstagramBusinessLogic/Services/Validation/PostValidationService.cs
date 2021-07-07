@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FakeInstagramEfModels.Entities;
 
-namespace FakeInstagramBusinessLogic.Services.ValidationServices
+namespace FakeInstagramBusinessLogic.Services.Validation
 {
     public class PostValidationService : IPostValidationService
     {

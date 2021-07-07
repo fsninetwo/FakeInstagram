@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FakeInstagramBusinessLogic.Services.ValidationServices
+namespace FakeInstagramBusinessLogic.Services.Validation
 {
     public interface IUserValidationService
     {
-        void ValidateUser(User user);
+        void UserIsNullValidation(User user);
     }
 }

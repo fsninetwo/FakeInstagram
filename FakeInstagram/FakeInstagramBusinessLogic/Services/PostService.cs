@@ -1,7 +1,7 @@
 ﻿using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
-using FakeInstagramBusinessLogic.Services.ValidationServices;
+using FakeInstagramBusinessLogic.Services.Validation;
 using FakeInstagramEfModels.Entities;
 using FakeInstagramViewModels;
 using FakeInstagramViewModels.CreateModels;
@@ -37,7 +37,7 @@ namespace FakeInstagramBusinessLogic.Services
         {
             _postValidateService.ValidateCreatePostTextModel(postTextModel);
             User user = _userProvider.GetCurrentUser();
-            _userValidateService.ValidateUser(user);
+            _userValidateService.UserIsNullValidation(user);
             Post post = _converter.ConvertToPost(postTextModel, user);
             _repository.CreatePost(post);
         }
@@ -46,7 +46,7 @@ namespace FakeInstagramBusinessLogic.Services
         {
             _postValidateService.ValidateCreatePostImageModel(postImageModel);
             User user = _userProvider.GetCurrentUser();
-            _userValidateService.ValidateUser(user);
+            _userValidateService.UserIsNullValidation(user);
             Post post = _converter.ConvertToPost(postImageModel, user);
             _repository.CreatePost(post);
         }

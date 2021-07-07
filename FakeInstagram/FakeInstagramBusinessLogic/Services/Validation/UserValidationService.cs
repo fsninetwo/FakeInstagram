@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FakeInstagramBusinessLogic.Services.ValidationServices
+namespace FakeInstagramBusinessLogic.Services.Validation
 {
     public class UserValidationService : IUserValidationService
     {
-        public void ValidateUser(User user)
+        public void UserIsNullValidation(User user)
         {
             if (user == null)
             {
