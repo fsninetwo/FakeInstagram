@@ -4,6 +4,7 @@ using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services;
+using FakeInstagramBusinessLogic.Services.ValidationServices;
 using FakeInstagramMigrations;
 using FakeInstagramMigrations.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -108,7 +109,8 @@ namespace FakeInstagramApp
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<IUserConverter, UserConverter>();
             services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
-            services.AddSingleton<IValidationService, ValidationService>();
+            services.AddSingleton<IPostValidationService, PostValidationService>();
+            services.AddSingleton<IUserValidationService, UserValidationService>();
             services.AddSingleton<IAppSettings>(x => appSettings);
 
             services.AddHttpContextAccessor();

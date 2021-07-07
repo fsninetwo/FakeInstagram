@@ -6,14 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FakeInstagramBusinessLogic.Services
+namespace FakeInstagramBusinessLogic.Services.ValidationServices
 {
-    public interface IValidationService
+    public interface IPostValidationService
     {
         void ValidateCreatePostTextModel(CreatePostTextModel createPostTextModel);
 
         void ValidateCreatePostImageModel(CreatePostImageModel createPostImageModel);
-
-        void ValidateUser(User user);
     }
 }

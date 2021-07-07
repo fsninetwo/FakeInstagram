@@ -1,6 +1,7 @@
 ﻿using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
+using FakeInstagramBusinessLogic.Services.ValidationServices;
 using FakeInstagramEfModels.Entities;
 using FakeInstagramViewModels;
 using FakeInstagramViewModels.CreateModels;
@@ -19,31 +20,33 @@ namespace FakeInstagramBusinessLogic.Services
         private readonly IPostRepository _repository;
         private readonly IPostConverter _converter;
         private readonly ICurrentUserProvider _userProvider;
-        private readonly IValidationService _validateService;
+        private readonly IPostValidationService _postValidateService;
+        private readonly IUserValidationService _userValidateService;
 
         public PostService(IPostRepository repository, IPostConverter converter, ICurrentUserProvider userProvider,
-            IValidationService validateService)
+            IPostValidationService postValidateService, IUserValidationService userValidateService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _converter = converter ?? throw new ArgumentNullException(nameof(converter));
             _userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
-            _validateService = validateService ?? throw new ArgumentNullException(nameof(validateService));
+            _postValidateService = postValidateService ?? throw new ArgumentNullException(nameof(postValidateService));
+            _userValidateService = userValidateService ?? throw new ArgumentNullException(nameof(userValidateService));
         }
 
         public void CreatePostTextModel(CreatePostTextModel postTextModel)
         {
-            _validateService.ValidateCreatePostTextModel(postTextModel);
+            _postValidateService.ValidateCreatePostTextModel(postTextModel);
             User user = _userProvider.GetCurrentUser();
-            _validateService.ValidateUser(user);
+            _userValidateService.ValidateUser(user);
             Post post = _converter.ConvertToPost(postTextModel, user);
             _repository.CreatePost(post);
         }
 
         public void CreatePostImageModel(CreatePostImageModel postImageModel)
         {
-            _validateService.ValidateCreatePostImageModel(postImageModel);
+            _postValidateService.ValidateCreatePostImageModel(postImageModel);
             User user = _userProvider.GetCurrentUser();
-            _validateService.ValidateUser(user);
+            _userValidateService.ValidateUser(user);
             Post post = _converter.ConvertToPost(postImageModel, user);
             _repository.CreatePost(post);
         }

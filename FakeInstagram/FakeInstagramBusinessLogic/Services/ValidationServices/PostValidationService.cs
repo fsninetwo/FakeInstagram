@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FakeInstagramEfModels.Entities;
 
-namespace FakeInstagramBusinessLogic.Services
+namespace FakeInstagramBusinessLogic.Services.ValidationServices
 {
-    public class ValidationService : IValidationService
+    public class PostValidationService : IPostValidationService
     {
         public void ValidateCreatePostTextModel(CreatePostTextModel createPostTextModel)
         {
@@ -71,14 +71,6 @@ namespace FakeInstagramBusinessLogic.Services
                 throw new PostValidationException("Post image link is empty");
             }
 
-        }
-
-        public void ValidateUser(User user)
-        {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
         }
     }
 }

@@ -1,19 +1,20 @@
 using FakeInstagramBusinessLogic.Exceptions;
 using FakeInstagramBusinessLogic.Services;
+using FakeInstagramBusinessLogic.Services.ValidationServices;
 using FakeInstagramViewModels.CreateModels;
 using System;
 using Xunit;
 
 namespace FakeInstagramUnitTests.Services
 {
-    public class ValicationUnitTest
+    public class PostValicationUnitTest
     {
-        ValidationService validationService = new ValidationService();
+        PostValidationService postValidationService = new PostValidationService();
 
         [Fact]
         public void ValidationService_CreatePostTextModel_InsertNullValue()
         {
-            Assert.Throws<ArgumentNullException>(() => validationService.ValidateUser(null));
+            Assert.Throws<ArgumentNullException>(() => postValidationService.ValidateCreatePostTextModel(null));
         }
 
         [Fact]
@@ -28,7 +29,7 @@ namespace FakeInstagramUnitTests.Services
                 }
             };
 
-            Assert.Throws<PostValidationException>(() => validationService.ValidateCreatePostTextModel(createPostModel));
+            Assert.Throws<PostValidationException>(() => postValidationService.ValidateCreatePostTextModel(createPostModel));
         }
 
         [Fact]
@@ -42,7 +43,7 @@ namespace FakeInstagramUnitTests.Services
                     Text = ""
                 }
             };
-            Assert.Throws<PostValidationException>(() => validationService.ValidateCreatePostTextModel(createPostModel));
+            Assert.Throws<PostValidationException>(() => postValidationService.ValidateCreatePostTextModel(createPostModel));
         }
 
         [Fact]
@@ -56,7 +57,7 @@ namespace FakeInstagramUnitTests.Services
                     Text = "Simple Text"
                 }
             };
-            var exception = Record.Exception(() => validationService.ValidateCreatePostTextModel(createPostModel));
+            var exception = Record.Exception(() => postValidationService.ValidateCreatePostTextModel(createPostModel));
             Assert.Null(exception);
         }
     }
