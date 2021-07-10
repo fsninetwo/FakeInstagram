@@ -67,7 +67,7 @@ namespace FakeInstagramApp
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                     {
                         {
-                            securityScheme, new string[] { }
+                            securityScheme, Array.Empty<string>()
                         }
                     });
             });

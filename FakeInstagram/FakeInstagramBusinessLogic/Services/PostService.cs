@@ -73,5 +73,12 @@ namespace FakeInstagramBusinessLogic.Services
             Post post = _converter.ConvertToPost(postImageModel);
             _repository.UpdateImagePost(post);
         }
+
+        public List<PostViewModel> GetPostsById(string search)
+        {
+            _postValidateService.ValidateSearchText(search);
+            List<Post> posts = _repository.GetPostsById(search);
+            return _converter.ConvertToPostViewModels(posts);
+        }
     }
 }

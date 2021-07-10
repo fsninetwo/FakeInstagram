@@ -3,6 +3,7 @@ using FakeInstagramMigrations;
 using FakeInstagramViewModels;
 using FakeInstagramViewModels.CreateModels;
 using FakeInstagramViewModels.UpdateModels;
+using FakeInstagramViewModels.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,13 +28,11 @@ namespace FakeInstagramBusinessLogic.Repositories
             post.Id = Guid.NewGuid();
             post.PostAttribute.Id = Guid.NewGuid();
             post.Created = currentDate;
-            if(post.PostAttribute is PostImageAttribute)
+            if (post.PostAttribute is PostImageAttribute attribute)
             {
-                PostImageAttribute attribute = (PostImageAttribute)post.PostAttribute;
                 attribute.Image.Id = Guid.NewGuid();
                 attribute.Image.Uploaded = currentDate;
                 post.PostAttribute = attribute;
-
             }
             _context.Posts.Add(post);
             _context.SaveChanges();
@@ -80,5 +79,17 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context.SaveChanges();
         }
 
+        public List<Post> GetPostsById(string search)
+        {
+            var posts = _context.Posts.Include(postUser => postUser.User).Select(posts => posts);
+
+            posts = posts.Where(post => post.Header.Contains(search));
+
+            posts = posts.Where(post => (post.PostAttribute as PostTextAttribute).Text.Contains(search));
+
+            posts = posts.Where(post => (post.PostAttribute as PostImageAttribute).Text.Contains(search));
+
+            return posts.ToList();
+        }
     }
 }

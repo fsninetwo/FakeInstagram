@@ -1,6 +1,7 @@
 ﻿using FakeInstagramEfModels.Entities;
 using FakeInstagramViewModels;
 using FakeInstagramViewModels.UpdateModels;
+using FakeInstagramViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,7 @@ namespace FakeInstagramBusinessLogic.Repositories
         void UpdateImagePost(Post post);
 
         void Delete(Guid id);
+
+        List<Post> GetPostsById(string search);
     }
 }

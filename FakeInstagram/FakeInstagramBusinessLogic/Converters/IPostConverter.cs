@@ -21,5 +21,7 @@ namespace FakeInstagramBusinessLogic.Converters
         Post ConvertToPost(UpdatePostImageModel postImageModel);
 
         PostViewModel ConvertToPostViewModel(Post Post);
+
+        List<PostViewModel> ConvertToPostViewModels(List<Post> posts);
     }
 }

@@ -72,5 +72,21 @@ namespace FakeInstagramBusinessLogic.Services.Validation
             }
 
         }
+
+        public void ValidateSearchText(string search)
+        {
+            if (string.IsNullOrEmpty(search))
+            {
+                throw new ArgumentNullException("Serch bar is empty");
+            }
+        }
+
+        public void ValidatePosts(List<Post> posts)
+        {
+            if (posts.Count == 0)
+            {
+                throw new PostValidationException("Post list is empty");
+            }
+        }
     }
 }

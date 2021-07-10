@@ -22,12 +22,10 @@ namespace FakeInstagramApp.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
-        private readonly ICurrentUserProvider _currentUserProvider;
 
-        public PostController(IPostService postService, ICurrentUserProvider currentUserProviderprovider)
+        public PostController(IPostService postService)
         {
             _postService = postService;
-            _currentUserProvider = currentUserProviderprovider;
         }
        
         [HttpPost]
@@ -46,12 +44,20 @@ namespace FakeInstagramApp.Controllers
   
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<PostViewModel> Get(Guid id)
+        public ActionResult<PostViewModel> GetPost(Guid id)
         {
             PostViewModel postViewModel = _postService.GetById(id);
             return new JsonResult(postViewModel);
         }
-      
+
+        [HttpGet]
+        [Route("{search}")]
+        public ActionResult<IEnumerable<PostViewModel>> GetPostByText(string search)
+        {
+            IEnumerable <PostViewModel> postViewModel = _postService.GetPostsById(search);
+            return new JsonResult(postViewModel);
+        }
+
         [HttpPut]
         public IActionResult UpdateTextPost(UpdatePostTextModel postTextModel)
         {

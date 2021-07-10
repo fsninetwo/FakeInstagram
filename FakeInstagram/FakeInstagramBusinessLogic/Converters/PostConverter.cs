@@ -85,5 +85,25 @@ namespace FakeInstagramBusinessLogic.Converters
             return new PostViewModel { Id = post.Id };
         }
 
+        public List<PostViewModel> ConvertToPostViewModels(List<Post> posts)
+        {
+            List<PostViewModel> postViewModels = new List<PostViewModel>();
+
+            foreach(Post post in posts)
+            {
+                PostViewModel postViewModel = new PostViewModel()
+                { 
+                    Id = post.Id,
+                    Header = post.Header,
+                    PostAttribute = post.PostAttribute,
+                    UserId = post.User.Id,
+                    FirstName = post.User.FirstName,
+                    LastName = post.User.LastName
+                };
+                postViewModels.Add(postViewModel);
+            }
+
+            return postViewModels;
+        }
     }
 }
