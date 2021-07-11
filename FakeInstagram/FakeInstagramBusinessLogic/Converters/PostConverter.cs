@@ -95,7 +95,8 @@ namespace FakeInstagramBusinessLogic.Converters
                 { 
                     Id = post.Id,
                     Header = post.Header,
-                    PostAttribute = post.PostAttribute,
+                    Text = (post.PostAttribute as PostTextAttribute).Text,
+                    PostImage = (post.PostAttribute is PostImageAttribute) ? (post.PostAttribute as PostImageAttribute).Image : null,
                     UserId = post.User.Id,
                     FirstName = post.User.FirstName,
                     LastName = post.User.LastName

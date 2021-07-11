@@ -25,6 +25,6 @@ namespace FakeInstagramBusinessLogic.Services
 
         void UpdatePostImageModel(UpdatePostImageModel postImageModel);
 
-        List<PostViewModel> GetPostsById(string search);
+        List<PostViewModel> GetPostsBySearch(string search);
     }
 }

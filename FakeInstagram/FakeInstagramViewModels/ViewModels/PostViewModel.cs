@@ -13,7 +13,9 @@ namespace FakeInstagramViewModels.ViewModels
 
         public string Header { get; set; }
 
-        public PostAttribute PostAttribute { get; set; }
+        public string Text { get; set; }
+
+        public PostImage PostImage { get; set; }
 
         public Guid UserId { get; set; }
 
