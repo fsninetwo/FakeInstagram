@@ -79,9 +79,9 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context.SaveChanges();
         }
 
-        public List<Post> GetPostsBySearch(string search)
+        public List<Post> GetPostsBySearch(SearchPostModel searchModel)
         {
-            search = search.ToLower();
+            string search = searchModel.Search.ToLower();
             var posts = _context.Posts
                 .Include(postUser => postUser.User)
                 .Include(postAttribute => postAttribute.PostAttribute)

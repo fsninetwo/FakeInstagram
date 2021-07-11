@@ -52,7 +52,7 @@ namespace FakeInstagramApp.Controllers
 
         [HttpGet]
         [Route("{search}")]
-        public ActionResult<List<PostViewModel>> GetPostByText(string search)
+        public ActionResult<List<PostViewModel>> GetPostByText(SearchPostModel search)
         {
             List <PostViewModel> postViewModel = _postService.GetPostsBySearch(search);
             return new JsonResult(postViewModel);

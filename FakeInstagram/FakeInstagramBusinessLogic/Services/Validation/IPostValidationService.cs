@@ -1,5 +1,6 @@
 ﻿using FakeInstagramEfModels.Entities;
 using FakeInstagramViewModels.CreateModels;
+using FakeInstagramViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace FakeInstagramBusinessLogic.Services.Validation
 
         void ValidateCreatePostImageModel(CreatePostImageModel createPostImageModel);
 
-        void ValidateSearchText(string search);
+        void ValidateSearchText(SearchPostModel searchModel);
 
         void ValidatePosts(List<Post> posts);
     }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FakeInstagramEfModels.Entities;
+using FakeInstagramViewModels.ViewModels;
 
 namespace FakeInstagramBusinessLogic.Services.Validation
 {
@@ -73,9 +74,14 @@ namespace FakeInstagramBusinessLogic.Services.Validation
 
         }
 
-        public void ValidateSearchText(string search)
+        public void ValidateSearchText(SearchPostModel searchPostModel)
         {
-            if (string.IsNullOrEmpty(search))
+            if (searchPostModel == null)
+            {
+                throw new ArgumentNullException(nameof(searchPostModel));
+            }
+
+            if (string.IsNullOrEmpty(searchPostModel.Search))
             {
                 throw new ArgumentNullException("Serch bar is empty");
             }

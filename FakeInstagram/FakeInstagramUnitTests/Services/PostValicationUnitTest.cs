@@ -9,7 +9,7 @@ namespace FakeInstagramUnitTests.Services
 {
     public class PostValicationUnitTest
     {
-        PostValidationService postValidationService = new PostValidationService();
+        private readonly PostValidationService postValidationService = new PostValidationService();
 
         [Fact]
         public void ValidationService_CreatePostTextModel_ThrowsExceptionWhenModelIsNull()

@@ -12,7 +12,7 @@ namespace FakeInstagramUnitTests.Converters
 {
     public class PostConverterUnitTest
     {
-        PostConverter postConverter = new PostConverter();
+        private readonly PostConverter postConverter = new PostConverter();
 
         [Fact]
         public void PostConverter_ConvertPostTextModel_ReturnAllFields()
