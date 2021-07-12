@@ -91,12 +91,26 @@ namespace FakeInstagramBusinessLogic.Converters
 
             foreach(Post post in posts)
             {
+                PostAttributeViewModel postAttributeViewModel = new PostAttributeViewModel();
+
+                if(post.PostAttribute is PostTextAttribute)
+                {
+                    postAttributeViewModel.Text = (post.PostAttribute as PostTextAttribute).Text;
+                }
+                else if (post.PostAttribute is PostImageAttribute)
+                {
+                    postAttributeViewModel.PostImageViewModel = new PostImageViewModel()
+                    {
+                        Link = (post.PostAttribute as PostImageAttribute).Image.Link,
+                        Name = (post.PostAttribute as PostImageAttribute).Image.Name,
+                    };
+                }
+
                 PostViewModel postViewModel = new PostViewModel()
                 { 
                     Id = post.Id,
                     Header = post.Header,
-                    Text = (post.PostAttribute as PostTextAttribute).Text,
-                    PostImage = (post.PostAttribute is PostImageAttribute) ? (post.PostAttribute as PostImageAttribute).Image : null,
+                    PostAttributeViewModel = postAttributeViewModel,
                     UserId = post.User.Id,
                     FirstName = post.User.FirstName,
                     LastName = post.User.LastName

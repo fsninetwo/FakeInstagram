@@ -74,14 +74,9 @@ namespace FakeInstagramBusinessLogic.Services.Validation
 
         }
 
-        public void ValidateSearchText(SearchPostModel searchPostModel)
+        public void ValidateSearchText(string search)
         {
-            if (searchPostModel == null)
-            {
-                throw new ArgumentNullException(nameof(searchPostModel));
-            }
-
-            if (string.IsNullOrEmpty(searchPostModel.Search))
+            if (string.IsNullOrEmpty(search))
             {
                 throw new ArgumentNullException("Serch bar is empty");
             }

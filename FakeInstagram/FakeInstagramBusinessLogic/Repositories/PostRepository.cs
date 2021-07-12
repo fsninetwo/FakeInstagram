@@ -79,18 +79,21 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context.SaveChanges();
         }
 
-        public List<Post> GetPostsBySearch(SearchPostModel searchModel)
+        public List<Post> GetPostsBySearch(string search)
         {
-            string search = searchModel.Search.ToLower();
+            search = search.ToLower();
             var posts = _context.Posts
                 .Include(postUser => postUser.User)
                 .Include(postAttribute => postAttribute.PostAttribute)
                 .Select(posts => posts);
 
-            posts = posts.Where(post => post.Header.ToLower().Contains(search) ||
-            (post.PostAttribute as PostTextAttribute).Text.ToLower().Contains(search) ||
-            post.User.FirstName.ToLower().Contains(search) ||
-            post.User.LastName.ToLower().Contains(search));
+            posts = posts.Where(post =>
+                post.Header.ToLower().Contains(search) ||
+                (post.PostAttribute as PostTextAttribute).Text.ToLower().Contains(search) ||
+                //(post.PostAttribute as PostImageAttribute).Text.ToLower().Contains(search) ||
+                post.User.FirstName.ToLower().Contains(search) ||
+                post.User.LastName.ToLower().Contains(search)
+            );
 
             return posts.ToList();
         }
