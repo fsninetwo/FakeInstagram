@@ -99,6 +99,7 @@ namespace FakeInstagramBusinessLogic.Converters
                 }
                 else if (post.PostAttribute is PostImageAttribute)
                 {
+                    postAttributeViewModel.Text = (post.PostAttribute as PostImageAttribute).Text;
                     postAttributeViewModel.PostImageViewModel = new PostImageViewModel()
                     {
                         Link = (post.PostAttribute as PostImageAttribute).Image.Link,

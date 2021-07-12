@@ -82,6 +82,14 @@ namespace FakeInstagramBusinessLogic.Services.Validation
             }
         }
 
+        public void ValidateSearchModel(SearchPostModel searchPostModel)
+        {
+            if (searchPostModel == null)
+            {
+                throw new ArgumentNullException(nameof(searchPostModel));
+            }
+        }
+
         public void ValidatePosts(List<Post> posts)
         {
             if (posts.Count == 0)

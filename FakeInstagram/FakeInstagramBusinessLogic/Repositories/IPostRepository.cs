@@ -23,5 +23,7 @@ namespace FakeInstagramBusinessLogic.Repositories
         void Delete(Guid id);
 
         List<Post> GetPostsBySearch(string search);
+
+        List<Post> GetPostsBySearch(SearchPostModel searchPostModel);
     }
 }

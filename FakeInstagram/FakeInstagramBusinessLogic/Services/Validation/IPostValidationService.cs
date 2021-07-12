@@ -17,6 +17,9 @@ namespace FakeInstagramBusinessLogic.Services.Validation
 
         void ValidateSearchText(string search);
 
+        void ValidateSearchModel(SearchPostModel searchPostModel);
+
         void ValidatePosts(List<Post> posts);
+
     }
 }

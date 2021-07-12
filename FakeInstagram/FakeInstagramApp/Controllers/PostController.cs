@@ -58,6 +58,13 @@ namespace FakeInstagramApp.Controllers
             return new JsonResult(postViewModel);
         }
 
+        [HttpGet]
+        public ActionResult<IEnumerable<PostViewModel>> GetPostBySearchTextModel([FromQuery]SearchPostModel searchPostModel)
+        {
+            IEnumerable<PostViewModel> postViewModel = _postService.GetPostsBySearchModel(searchPostModel);
+            return new JsonResult(postViewModel);
+        }
+
         [HttpPut]
         public IActionResult UpdateTextPost(UpdatePostTextModel postTextModel)
         {

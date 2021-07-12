@@ -81,5 +81,13 @@ namespace FakeInstagramBusinessLogic.Services
             _postValidateService.ValidatePosts(posts);
             return _converter.ConvertToPostViewModels(posts);
         }
+
+        public List<PostViewModel> GetPostsBySearchModel(SearchPostModel searchPostModel)
+        {
+            _postValidateService.ValidateSearchModel(searchPostModel);
+            List<Post> posts = _repository.GetPostsBySearch(searchPostModel);
+            _postValidateService.ValidatePosts(posts);
+            return _converter.ConvertToPostViewModels(posts);
+        }
     }
 }
