@@ -1,4 +1,6 @@
 ﻿using FakeInstagramEfModels.Entities;
+using FakeInstagramMigrations.CustomEntities;
+using FakeInstagramViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +11,16 @@ namespace FakeInstagramBusinessLogic.Repositories
 {
     public interface IUserRepository
     {
-        User GetUserByEmailAndPassword(string email, string password);
+        FakeInstagramEfModels.Entities.User GetUserByEmailAndPassword(string email, string password);
 
-        User GetUserById(Guid id);
+        FakeInstagramEfModels.Entities.User GetUserById(Guid id);
 
-        void CreateUser(User user);
+        void CreateUser(FakeInstagramEfModels.Entities.User user);
 
-        IEnumerable<User> GetAllUsers();
+        IEnumerable<FakeInstagramEfModels.Entities.User> GetAllUsers();
+
+        TopUser SelectTopUserForSelectedMonth(DateTime selectedDate);
+
+        List<UserLikes> SelectUsersWithLikesMoreThanAverage();
     }
 }

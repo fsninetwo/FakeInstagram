@@ -119,10 +119,10 @@ namespace FakeInstagramBusinessLogic.Repositories
             {
                 var predicate = PredicateBuilder.False<Post>();
 
-                predicate = predicate.And(p => p.PostAttribute is PostTextAttribute);
-                predicate = predicate.Or(p => (p.PostAttribute as PostTextAttribute).Text.ToLower().Contains(searchPostModel.Text.ToLower()));
-                predicate = predicate.And(p => p.PostAttribute is PostImageAttribute);
-                predicate = predicate.Or(p => (p.PostAttribute as PostImageAttribute).Text.ToLower().Contains(searchPostModel.Text.ToLower()));
+                predicate = predicate.Or(p => p.PostAttribute is PostTextAttribute && 
+                    (p.PostAttribute as PostTextAttribute).Text.ToLower().Contains(searchPostModel.Text.ToLower()));
+                predicate = predicate.Or(p => p.PostAttribute is PostImageAttribute && 
+                    (p.PostAttribute as PostImageAttribute).Text.ToLower().Contains(searchPostModel.Text.ToLower()));
                 posts = posts.Where(predicate);
             }
 
@@ -139,17 +139,6 @@ namespace FakeInstagramBusinessLogic.Repositories
             var query = posts.ToQueryString();
 
             return posts.ToList();
-        }
-
-        IQueryable<Post> SearchInPostAttributes(string keyword)
-        {
-            var predicate = PredicateBuilder.False<Post>();
-
-            predicate = predicate.And(p => p.PostAttribute is PostTextAttribute);
-            predicate = predicate.Or(p => (p.PostAttribute as PostTextAttribute).Text.ToLower().Contains(keyword));
-            predicate = predicate.And(p => p.PostAttribute is PostImageAttribute);
-            predicate = predicate.Or(p => (p.PostAttribute as PostImageAttribute).Text.ToLower().Contains(keyword));
-            return _context.Posts.Where(predicate);
         }
     }
 }

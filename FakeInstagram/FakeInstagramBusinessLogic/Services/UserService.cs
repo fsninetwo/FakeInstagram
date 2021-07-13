@@ -15,6 +15,8 @@ using FakeInstagramMigrations.Configurations;
 using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramViewModels.CreateModels;
 using FakeInstagramBusinessLogic.Providers;
+using FakeInstagramViewModels.ViewModels;
+using FakeInstagramMigrations.CustomEntities;
 
 namespace FakeInstagramBusinessLogic.Services
 {
@@ -59,27 +61,37 @@ namespace FakeInstagramBusinessLogic.Services
             return new AuthenticateResponse(user, tokenHandler.WriteToken(token));
         }
 
-        public User GetUserById(Guid id)
+        public FakeInstagramEfModels.Entities.User GetUserById(Guid id)
         {
             return _repository.GetUserById(id);
         }
 
         // helper methods
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<FakeInstagramEfModels.Entities.User> GetAllUsers()
         {
             return _repository.GetAllUsers();
         }
 
         public AuthorizationIdentity GetIdentityById(Guid Id)
         {
-            User user = _repository.GetUserById(Id);
+            FakeInstagramEfModels.Entities.User user = _repository.GetUserById(Id);
             return _converter.ConvertToAuthorizationIdentity(user);
         }
 
         public void CreateUser(CreateUserModel userModel)
         {
-            User user = _converter.ConvertToUser(userModel);
+            FakeInstagramEfModels.Entities.User user = _converter.ConvertToUser(userModel);
             _repository.CreateUser(user);
+        }
+
+        public TopUser SelectTopUserForSelectedMonth(DateTime selectedDate)
+        {
+            return _repository.SelectTopUserForSelectedMonth(selectedDate);
+        }
+
+        public List<UserLikes> SelectUsersWithLikesMoreThanAverage()
+        {
+            return _repository.SelectUsersWithLikesMoreThanAverage();
         }
     }
 }

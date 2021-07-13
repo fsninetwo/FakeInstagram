@@ -13,7 +13,7 @@ namespace FakeInstagramBusinessLogic.Converters
 {
     public class PostConverter : IPostConverter
     {
-        public Post ConvertToPost(CreatePostTextModel postTextModel, User user)
+        public Post ConvertToPost(CreatePostTextModel postTextModel, FakeInstagramEfModels.Entities.User user)
         {
             Post post = new Post
             {
@@ -27,7 +27,7 @@ namespace FakeInstagramBusinessLogic.Converters
             return post;
         }
 
-        public Post ConvertToPost(CreatePostImageModel postImageModel, User user)
+        public Post ConvertToPost(CreatePostImageModel postImageModel, FakeInstagramEfModels.Entities.User user)
         {
             Post post = new Post
             {
