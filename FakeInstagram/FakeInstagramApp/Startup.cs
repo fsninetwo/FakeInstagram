@@ -150,9 +150,6 @@ namespace FakeInstagramApp
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            // custom jwt auth middleware
-            app.UseMiddleware<JWTMiddleware>();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

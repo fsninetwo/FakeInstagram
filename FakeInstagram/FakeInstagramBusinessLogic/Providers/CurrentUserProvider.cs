@@ -22,10 +22,10 @@ namespace FakeInstagramBusinessLogic.Providers
             _userService = userService;
         }
 
-        public User GetCurrentUser()
+        public async Task<User> GetCurrentUser()
         {
             Guid id = Guid.Parse(_context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            return _userService.GetUserById(id);
+            return await _userService.GetUserById(id);
         }
 
         public bool IsCurrentUserCreator(Guid userId)

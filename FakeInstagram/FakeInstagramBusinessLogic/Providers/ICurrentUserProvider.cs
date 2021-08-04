@@ -12,7 +12,7 @@ namespace FakeInstagramBusinessLogic.Providers
 {
     public interface ICurrentUserProvider
     {
-        User GetCurrentUser();
+        Task<User> GetCurrentUser();
 
         bool IsCurrentUserCreator(Guid userId);
     }
