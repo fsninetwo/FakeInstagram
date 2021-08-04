@@ -14,7 +14,7 @@ namespace FakeInstagramBusinessLogic.Repositories
     {
         Task CreatePost(Post post);
 
-        Post GetPostById(Guid id);
+        Task<Post> GetPostById(Guid id);
 
         Task UpdateTextPost(Post post);
 
