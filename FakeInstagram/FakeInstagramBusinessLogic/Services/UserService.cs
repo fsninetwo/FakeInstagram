@@ -74,14 +74,8 @@ namespace FakeInstagramBusinessLogic.Services
 
         public AuthorizationIdentity GetIdentityById(Guid Id)
         {
-            FakeInstagramEfModels.Entities.User user = _repository.GetUserById(Id);
+            User user = _repository.GetUserById(Id);
             return _converter.ConvertToAuthorizationIdentity(user);
-        }
-
-        public void CreateUser(CreateUserModel userModel)
-        {
-            FakeInstagramEfModels.Entities.User user = _converter.ConvertToUser(userModel);
-            _repository.CreateUser(user);
         }
 
         public TopUser SelectTopUserForSelectedMonth(DateTime selectedDate)
