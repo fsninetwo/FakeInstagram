@@ -22,10 +22,12 @@ namespace FakeInstagramApp.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
+        private readonly ICurrentUserProvider _currentUserProvider;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, ICurrentUserProvider currentUserProviderprovider)
         {
             _postService = postService;
+            _currentUserProvider = currentUserProviderprovider;
         }
        
         [HttpPost]

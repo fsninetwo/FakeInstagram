@@ -11,13 +11,13 @@ namespace FakeInstagramBusinessLogic.Repositories
 {
     public interface IUserRepository
     {
-        FakeInstagramEfModels.Entities.User GetUserByEmailAndPassword(string email, string password);
+        User GetUserByEmailAndPassword(string email, string password);
 
-        FakeInstagramEfModels.Entities.User GetUserById(Guid id);
+        User GetUserById(Guid id);
 
-        void CreateUser(FakeInstagramEfModels.Entities.User user);
+        void CreateUser(User user);
 
-        IEnumerable<FakeInstagramEfModels.Entities.User> GetAllUsers();
+        IEnumerable<User> GetAllUsers();
 
         TopUser SelectTopUserForSelectedMonth(DateTime selectedDate);
 

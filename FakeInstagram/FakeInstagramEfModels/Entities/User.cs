@@ -24,6 +24,9 @@ namespace FakeInstagramEfModels.Entities
         [Required]
         public bool IsVerified { get; set; }
 
+        [Required]
+        public bool IsVerified { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

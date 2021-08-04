@@ -20,7 +20,7 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void CreateUser(FakeInstagramEfModels.Entities.User user)
+        public void CreateUser(User user)
         {
             user.UserRole = _context.UserRoles.FirstOrDefault(role => role.Name.Equals("User"));
             user.IsVerified = false;
@@ -41,7 +41,7 @@ namespace FakeInstagramBusinessLogic.Repositories
             return user;
         }
 
-        public FakeInstagramEfModels.Entities.User GetUserById(Guid id)
+        public User GetUserById(Guid id)
         {
             FakeInstagramEfModels.Entities.User user = _context.Users.Include(role => role.UserRole).FirstOrDefault(user => user.Id == id);
             return user;

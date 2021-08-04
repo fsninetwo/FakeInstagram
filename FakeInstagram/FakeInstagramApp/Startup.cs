@@ -125,7 +125,6 @@ namespace FakeInstagramApp
             }
 
             app.UseMiddleware<ExceptionMiddleware>();
-
             app.UseSerilogRequestLogging();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -143,8 +142,6 @@ namespace FakeInstagramApp
                 .AllowAnyHeader());
 
             // custom jwt auth middleware
-            
-
             app.UseAuthentication();
             app.UseAuthorization();
 

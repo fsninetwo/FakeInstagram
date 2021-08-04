@@ -64,6 +64,8 @@ namespace FakeInstagramMigrations.Migrations
 
                     b.HasIndex("PostAttributeId");
 
+                    b.HasIndex("PostAttributeId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");

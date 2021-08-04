@@ -12,15 +12,14 @@ namespace FakeInstagramBusinessLogic.Services
     public interface IUserService
     {
         AuthenticateResponse Authenticate(AuthenticateRequest model);
+        User GetUserById(Guid id);
 
-        FakeInstagramEfModels.Entities.User GetUserById(Guid id);
-
-        IEnumerable<FakeInstagramEfModels.Entities.User> GetAllUsers();
+        IEnumerable<User> GetAllUsers();
 
         AuthorizationIdentity GetIdentityById(Guid userId);
 
         void CreateUser(CreateUserModel userModel);
-
+      
         TopUser SelectTopUserForSelectedMonth(DateTime selectedDate);
 
         List<UserLikes> SelectUsersWithLikesMoreThanAverage();

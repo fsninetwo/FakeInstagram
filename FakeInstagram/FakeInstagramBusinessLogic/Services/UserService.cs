@@ -93,5 +93,11 @@ namespace FakeInstagramBusinessLogic.Services
         {
             return _repository.SelectUsersWithLikesMoreThanAverage();
         }
+
+        public void CreateUser(CreateUserModel userModel)
+        {
+            User user = _converter.ConvertToUser(userModel);
+            _repository.CreateUser(user);
+        }
     }
 }
