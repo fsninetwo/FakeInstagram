@@ -19,7 +19,10 @@ namespace FakeInstagramEfModels.Entities
         public Guid Sol { get; set; }
 
         [Required] 
-        public DateTime Created { get; set; } = DateTime.Now;
+        public DateTime Created { get; set; }
+
+        [Required]
+        public bool IsVerified { get; set; }
 
         [Required]
         public bool IsVerified { get; set; }

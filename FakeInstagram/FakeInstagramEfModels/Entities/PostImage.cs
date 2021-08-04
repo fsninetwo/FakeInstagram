@@ -16,7 +16,7 @@ namespace FakeInstagramEfModels.Entities
         public string Link { get; set; }
 
         [Required]
-        public DateTime Uploaded { get; set; } = DateTime.Now;
+        public DateTime Uploaded { get; set; }
 
     }
 }

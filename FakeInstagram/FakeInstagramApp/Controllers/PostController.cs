@@ -46,12 +46,27 @@ namespace FakeInstagramApp.Controllers
   
         [HttpGet]
         [Route("{id}")]
-        public IActionResult Get(Guid id)
+        public ActionResult<PostViewModel> GetPost(Guid id)
         {
             PostViewModel postViewModel = _postService.GetById(id);
             return new JsonResult(postViewModel);
         }
-      
+
+        [HttpGet]
+        [Route("{search}")]
+        public ActionResult<IEnumerable<PostViewModel>> GetPostByText(string search)
+        {
+            IEnumerable <PostViewModel> postViewModel = _postService.GetPostsBySearch(search);
+            return new JsonResult(postViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<PostViewModel>> GetPostBySearchTextModel([FromQuery]SearchPostModel searchPostModel)
+        {
+            IEnumerable<PostViewModel> postViewModel = _postService.GetPostsBySearchModel(searchPostModel);
+            return new JsonResult(postViewModel);
+        }
+
         [HttpPut]
         public IActionResult UpdateTextPost(UpdatePostTextModel postTextModel)
         {

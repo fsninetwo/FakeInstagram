@@ -13,10 +13,10 @@ namespace FakeInstagramEfModels.Entities
         public string Header { get; set; }
 
         [Required]
-        public DateTime Created { get; set; } = DateTime.Now;
+        public DateTime Created { get; set; }
 
         [Required]
-        public DateTime Updated { get; set; } = DateTime.Now;
+        public DateTime Updated { get; set; }
 
         [Required]
         public User User { get; set; }

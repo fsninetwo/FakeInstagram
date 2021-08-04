@@ -1,6 +1,7 @@
 ﻿using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
+using FakeInstagramBusinessLogic.Services.Validation;
 using FakeInstagramEfModels.Entities;
 using FakeInstagramViewModels;
 using FakeInstagramViewModels.CreateModels;
@@ -19,30 +20,35 @@ namespace FakeInstagramBusinessLogic.Services
         private readonly IPostRepository _repository;
         private readonly IPostConverter _converter;
         private readonly ICurrentUserProvider _userProvider;
-        private readonly IValidateService _validateService;
+        private readonly IPostValidationService _postValidateService;
+        private readonly IUserValidationService _userValidateService;
 
         public PostService(IPostRepository repository, IPostConverter converter, ICurrentUserProvider userProvider,
-            IValidateService validateService)
+            IPostValidationService postValidateService, IUserValidationService userValidateService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _converter = converter ?? throw new ArgumentNullException(nameof(converter));
             _userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
-            _validateService = validateService ?? throw new ArgumentNullException(nameof(validateService));
+            _postValidateService = postValidateService ?? throw new ArgumentNullException(nameof(postValidateService));
+            _userValidateService = userValidateService ?? throw new ArgumentNullException(nameof(userValidateService));
         }
 
         public void CreatePostTextModel(CreatePostTextModel postTextModel)
         {
-            _validateService.Validate(postTextModel);
-            User user = _userProvider.GetCurrentUser();
+            _postValidateService.ValidateCreatePostTextModel(postTextModel);
+            FakeInstagramEfModels.Entities.User user = _userProvider.GetCurrentUser();
+            _userValidateService.UserIsNullValidation(user);
             Post post = _converter.ConvertToPost(postTextModel, user);
-            _repository.Create(post);
+            _repository.CreatePost(post);
         }
 
         public void CreatePostImageModel(CreatePostImageModel postImageModel)
         {
-            User user = _userProvider.GetCurrentUser();
+            _postValidateService.ValidateCreatePostImageModel(postImageModel);
+            FakeInstagramEfModels.Entities.User user = _userProvider.GetCurrentUser();
+            _userValidateService.UserIsNullValidation(user);
             Post post = _converter.ConvertToPost(postImageModel, user);
-            _repository.Create(post);
+            _repository.CreatePost(post);
         }
 
         public PostViewModel GetById(Guid id)
@@ -66,6 +72,22 @@ namespace FakeInstagramBusinessLogic.Services
         {
             Post post = _converter.ConvertToPost(postImageModel);
             _repository.UpdateImagePost(post);
+        }
+
+        public List<PostViewModel> GetPostsBySearch(string search)
+        {
+            _postValidateService.ValidateSearchText(search);
+            List<Post> posts = _repository.GetPostsBySearch(search);
+            _postValidateService.ValidatePosts(posts);
+            return _converter.ConvertToPostViewModels(posts);
+        }
+
+        public List<PostViewModel> GetPostsBySearchModel(SearchPostModel searchPostModel)
+        {
+            _postValidateService.ValidateSearchModel(searchPostModel);
+            List<Post> posts = _repository.GetPostsBySearch(searchPostModel);
+            _postValidateService.ValidatePosts(posts);
+            return _converter.ConvertToPostViewModels(posts);
         }
     }
 }

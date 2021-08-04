@@ -17,13 +17,11 @@ namespace FakeInstagramApp.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly ICurrentUserProvider _currentUserProvider;
         private readonly ILogger<UserController> _logger;
 
-        public UserController (IUserService userService, ICurrentUserProvider currentUserProvider, ILogger<UserController> logger)
+        public UserController (IUserService userService, ILogger<UserController> logger)
         {
             _userService = userService;
-            _currentUserProvider = currentUserProvider;
             _logger = logger;
         }
 

@@ -1,4 +1,5 @@
 ﻿using FakeInstagramEfModels.Entities;
+using FakeInstagramMigrations.CustomEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -23,5 +24,9 @@ namespace FakeInstagramMigrations
         public DbSet<PostImageAttribute> PostImageAttributes { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Like> Likes { get; set; }
+
+        //Custom, not mapped entities
+        public DbSet<TopUser> TopUsers { get; set; }
+        public DbSet<UserLikes> UserLikes { get; set; }
     }
 }

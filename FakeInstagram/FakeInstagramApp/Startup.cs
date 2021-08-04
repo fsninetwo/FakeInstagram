@@ -4,6 +4,7 @@ using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services;
+using FakeInstagramBusinessLogic.Services.Validation;
 using FakeInstagramMigrations;
 using FakeInstagramMigrations.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -66,7 +67,7 @@ namespace FakeInstagramApp
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                     {
                         {
-                            securityScheme, new string[] { }
+                            securityScheme, Array.Empty<string>()
                         }
                     });
             });
@@ -108,7 +109,8 @@ namespace FakeInstagramApp
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<IUserConverter, UserConverter>();
             services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
-            services.AddSingleton<IValidateService, ValidateService>();
+            services.AddSingleton<IPostValidationService, PostValidationService>();
+            services.AddSingleton<IUserValidationService, UserValidationService>();
             services.AddSingleton<IAppSettings>(x => appSettings);
 
             services.AddHttpContextAccessor();
@@ -121,13 +123,8 @@ namespace FakeInstagramApp
             {
                 app.UseDeveloperExceptionPage();  
             }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
 
-            
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseSerilogRequestLogging();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -145,8 +142,6 @@ namespace FakeInstagramApp
                 .AllowAnyHeader());
 
             // custom jwt auth middleware
-            app.UseMiddleware<ExceptionMiddleware>();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
