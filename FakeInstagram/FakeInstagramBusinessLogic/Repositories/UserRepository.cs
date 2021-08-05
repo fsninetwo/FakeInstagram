@@ -1,12 +1,10 @@
 ﻿using FakeInstagramEfModels.Entities;
 using FakeInstagramMigrations;
 using FakeInstagramMigrations.CustomEntities;
-using FakeInstagramViewModels.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Repositories
