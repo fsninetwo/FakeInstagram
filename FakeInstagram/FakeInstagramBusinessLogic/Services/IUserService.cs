@@ -2,6 +2,7 @@
 using FakeInstagramMigrations.CustomEntities;
 using FakeInstagramViewModels.AuthorizationModels;
 using FakeInstagramViewModels.CreateModels;
+using FakeInstagramViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

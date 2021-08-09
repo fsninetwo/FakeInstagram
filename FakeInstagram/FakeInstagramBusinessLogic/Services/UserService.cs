@@ -84,6 +84,16 @@ namespace FakeInstagramBusinessLogic.Services
             return _repository.SelectUsersWithLikesMoreThanAverage();
         }
 
+        public TopUser SelectTopUserForSelectedMonth(DateTime selectedDate)
+        {
+            return _repository.SelectTopUserForSelectedMonth(selectedDate);
+        }
+
+        public List<UserLikes> SelectUsersWithLikesMoreThanAverage()
+        {
+            return _repository.SelectUsersWithLikesMoreThanAverage();
+        }
+        
         public async Task CreateUser(CreateUserModel userModel)
         {
             User user = _converter.ConvertToUser(userModel);
