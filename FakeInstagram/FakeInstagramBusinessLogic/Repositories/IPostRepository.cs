@@ -1,29 +1,25 @@
-﻿using FakeInstagramEfModels.Entities;
-using FakeInstagramViewModels;
-using FakeInstagramViewModels.UpdateModels;
+using FakeInstagramEfModels.Entities;
 using FakeInstagramViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Repositories
 {
     public interface IPostRepository
     {
-        void CreatePost(Post post);
+        Task CreatePost(Post post);
 
-        Post GetById(Guid id);
+        Task<Post> GetPostById(Guid id);
 
-        void UpdateTextPost(Post post);
+        Task UpdateTextPost(Post post);
 
-        void UpdateImagePost(Post post);
+        Task UpdateImagePost(Post post);
 
-        void Delete(Guid id);
+        Task Delete(Guid id);
 
-        List<Post> GetPostsBySearch(string search);
+        Task<List<Post>> GetPostsBySearch(string search);
 
-        List<Post> GetPostsBySearch(SearchPostModel searchPostModel);
+        Task<List<Post>> GetPostsBySearch(SearchPostModel searchPostModel);
     }
 }

@@ -1,17 +1,12 @@
-﻿using FakeInstagramBusinessLogic.Extensions;
+using FakeInstagramBusinessLogic.Extensions;
 using FakeInstagramEfModels.Entities;
 using FakeInstagramMigrations;
-using FakeInstagramViewModels;
-using FakeInstagramViewModels.CreateModels;
-using FakeInstagramViewModels.UpdateModels;
 using FakeInstagramViewModels.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Repositories
@@ -25,9 +20,9 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void CreatePost(Post post)
+        public async Task CreatePost(Post post)
         {
-            DateTime currentDate = DateTime.Now;
+            var currentDate = DateTime.Now;
             post.Id = Guid.NewGuid();
             post.PostAttribute.Id = Guid.NewGuid();
             post.Created = currentDate;
@@ -38,25 +33,25 @@ namespace FakeInstagramBusinessLogic.Repositories
                 post.PostAttribute = attribute;
             }
             _context.Posts.Add(post);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Post GetById(Guid id)
+        public async Task<Post> GetPostById(Guid id)
         {
-            Post post = _context.Posts.Include(p => p.PostAttribute).FirstOrDefault(post => post.Id == id);
+            var post = await _context.Posts.Include(p => p.PostAttribute).FirstOrDefaultAsync(postId => postId.Id == id);
             return post;
         }
 
-        public void Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            Post post = GetById(id);
+            var post = await GetPostById(id);
             _context.Posts.Remove(post);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void UpdateTextPost(Post post)
+        public async Task UpdateTextPost(Post post)
         {
-            Post oldpost = _context.Posts.Where(post => post.Id == post.Id).FirstOrDefault();
+            Post oldpost = await _context.Posts.FirstOrDefaultAsync(posts => posts.Id == post.Id);
             oldpost.Header = post.Header;
             oldpost.Updated = DateTime.Now;
             PostTextAttribute oldAttribute = (PostTextAttribute)oldpost.PostAttribute;
@@ -64,12 +59,12 @@ namespace FakeInstagramBusinessLogic.Repositories
             oldAttribute.Text = newAttribute.Text;
             oldpost.PostAttribute = oldAttribute;
             _context.Posts.Update(oldpost);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void UpdateImagePost(Post post)
+        public async Task UpdateImagePost(Post post)
         {
-            Post oldpost = _context.Posts.Where(post => post.Id == post.Id).FirstOrDefault();
+            Post oldpost = await _context.Posts.FirstOrDefaultAsync(posts => posts.Id == post.Id);
             oldpost.Header = post.Header;
             oldpost.Updated = DateTime.Now;
             PostImageAttribute oldAttribute = (PostImageAttribute)oldpost.PostAttribute;
@@ -79,16 +74,16 @@ namespace FakeInstagramBusinessLogic.Repositories
             oldAttribute.Image.Link = newAttribute.Image.Link;
             oldpost.PostAttribute = oldAttribute;
             _context.Posts.Update(oldpost);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public List<Post> GetPostsBySearch(string search)
+        public async Task<List<Post>> GetPostsBySearch(string search)
         {
             search = search.ToLower();
             var posts = _context.Posts
                 .Include(postUser => postUser.User)
                 .Include(postAttribute => postAttribute.PostAttribute)
-                .Select(posts => posts);
+                .Select(searchPosts => searchPosts);
 
             posts = posts.Where(post => 
                 post.Header.ToLower().Contains(search) ||
@@ -98,17 +93,17 @@ namespace FakeInstagramBusinessLogic.Repositories
                 post.User.LastName.ToLower().Contains(search)
             );
 
-            var query = posts.ToQueryString();
+            //var query = posts.ToQueryString();
 
-            return posts.ToList();
+            return await posts.ToListAsync();
         }
 
-        public List<Post> GetPostsBySearch(SearchPostModel searchPostModel)
+        public async Task<List<Post>> GetPostsBySearch(SearchPostModel searchPostModel)
         {
             var posts = _context.Posts
                 .Include(postUser => postUser.User)
                 .Include(postAttribute => postAttribute.PostAttribute)
-                .Select(posts => posts);
+                .Select(searchPosts => searchPosts);
 
             if (!string.IsNullOrEmpty(searchPostModel.Header))
             {
@@ -120,9 +115,9 @@ namespace FakeInstagramBusinessLogic.Repositories
                 var predicate = PredicateBuilder.False<Post>();
 
                 predicate = predicate.Or(p => p.PostAttribute is PostTextAttribute && 
-                    (p.PostAttribute as PostTextAttribute).Text.ToLower().Contains(searchPostModel.Text.ToLower()));
+                    ((PostTextAttribute) p.PostAttribute).Text.ToLower().Contains(searchPostModel.Text.ToLower()));
                 predicate = predicate.Or(p => p.PostAttribute is PostImageAttribute && 
-                    (p.PostAttribute as PostImageAttribute).Text.ToLower().Contains(searchPostModel.Text.ToLower()));
+                    ((PostImageAttribute) p.PostAttribute).Text.ToLower().Contains(searchPostModel.Text.ToLower()));
                 posts = posts.Where(predicate);
             }
 
@@ -136,9 +131,9 @@ namespace FakeInstagramBusinessLogic.Repositories
                 posts = posts.Where(post => post.User.LastName.ToLower().Contains(searchPostModel.LastName.ToLower()));
             }
 
-            var query = posts.ToQueryString();
+            //var query = posts.ToQueryString();
 
-            return posts.ToList();
+            return await posts.ToListAsync();
         }
     }
 }

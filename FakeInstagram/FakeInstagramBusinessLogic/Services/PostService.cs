@@ -3,14 +3,11 @@ using FakeInstagramBusinessLogic.Providers;
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramBusinessLogic.Services.Validation;
 using FakeInstagramEfModels.Entities;
-using FakeInstagramViewModels;
 using FakeInstagramViewModels.CreateModels;
 using FakeInstagramViewModels.UpdateModels;
 using FakeInstagramViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Services
@@ -33,59 +30,59 @@ namespace FakeInstagramBusinessLogic.Services
             _userValidateService = userValidateService ?? throw new ArgumentNullException(nameof(userValidateService));
         }
 
-        public void CreatePostTextModel(CreatePostTextModel postTextModel)
+        public async Task CreatePostTextModel(CreatePostTextModel postTextModel)
         {
             _postValidateService.ValidateCreatePostTextModel(postTextModel);
-            FakeInstagramEfModels.Entities.User user = _userProvider.GetCurrentUser();
+            User user = await _userProvider.GetCurrentUser();
             _userValidateService.UserIsNullValidation(user);
             Post post = _converter.ConvertToPost(postTextModel, user);
-            _repository.CreatePost(post);
+            await _repository.CreatePost(post);
         }
 
-        public void CreatePostImageModel(CreatePostImageModel postImageModel)
+        public async Task CreatePostImageModel(CreatePostImageModel postImageModel)
         {
             _postValidateService.ValidateCreatePostImageModel(postImageModel);
-            FakeInstagramEfModels.Entities.User user = _userProvider.GetCurrentUser();
+            User user = await _userProvider.GetCurrentUser();
             _userValidateService.UserIsNullValidation(user);
             Post post = _converter.ConvertToPost(postImageModel, user);
-            _repository.CreatePost(post);
+            await _repository.CreatePost(post);
         }
 
-        public PostViewModel GetById(Guid id)
+        public async Task<PostViewModel> GetPostById(Guid id)
         {
-            Post post = _repository.GetById(id);
+            Post post = await _repository.GetPostById(id);
             return _converter.ConvertToPostViewModel(post);
         }
 
-        public void Delete(Guid id)
+        public async Task DeletePostById(Guid id)
         {
-            _repository.Delete(id);
+            await _repository.Delete(id);
         }
 
-        public void UpdatePostTextModel(UpdatePostTextModel postTextModel)
+        public async Task UpdatePostTextModel(UpdatePostTextModel postTextModel)
         {
             Post post = _converter.ConvertToPost(postTextModel);
-            _repository.UpdateTextPost(post);
+            await _repository.UpdateTextPost(post);
         }
 
-        public void UpdatePostImageModel(UpdatePostImageModel postImageModel)
+        public async Task UpdatePostImageModel(UpdatePostImageModel postImageModel)
         {
             Post post = _converter.ConvertToPost(postImageModel);
-            _repository.UpdateImagePost(post);
+            await _repository.UpdateImagePost(post);
         }
 
-        public List<PostViewModel> GetPostsBySearch(string search)
+        public async Task<List<PostViewModel>> GetPostsBySearch(string search)
         {
             _postValidateService.ValidateSearchText(search);
-            List<Post> posts = _repository.GetPostsBySearch(search);
+            List<Post> posts = await _repository.GetPostsBySearch(search);
             _postValidateService.ValidatePosts(posts);
             return _converter.ConvertToPostViewModels(posts);
         }
 
-        public List<PostViewModel> GetPostsBySearchModel(SearchPostModel searchPostModel)
+        public async Task<List<PostViewModel>> GetPostsBySearchModel(SearchPostModel searchPostModel)
         {
             _postValidateService.ValidateSearchModel(searchPostModel);
-            List<Post> posts = _repository.GetPostsBySearch(searchPostModel);
+            List<Post> posts = await _repository.GetPostsBySearch(searchPostModel);
             _postValidateService.ValidatePosts(posts);
             return _converter.ConvertToPostViewModels(posts);
         }

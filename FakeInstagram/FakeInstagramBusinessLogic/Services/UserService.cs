@@ -3,20 +3,16 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using FakeInstagramViewModels.AuthorizationModels;
 
 using FakeInstagramBusinessLogic.Repositories;
 using FakeInstagramMigrations.Configurations;
 using FakeInstagramBusinessLogic.Converters;
 using FakeInstagramViewModels.CreateModels;
-using FakeInstagramBusinessLogic.Providers;
-using FakeInstagramViewModels.ViewModels;
 using FakeInstagramMigrations.CustomEntities;
+using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Services
 {
@@ -33,9 +29,9 @@ namespace FakeInstagramBusinessLogic.Services
             _converter = converter;
         }
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model)
         {
-            var user = _repository.GetUserByEmailAndPassword(model.Email, model.Password);
+            var user = await _repository.GetUserByEmailAndPassword(model.Email, model.Password);
 
             // return null if user not found
             if (user == null)
@@ -46,7 +42,7 @@ namespace FakeInstagramBusinessLogic.Services
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                Subject = new ClaimsIdentity(claims: new[]
                 {
                     new Claim(ClaimTypes.Name, $"User"),
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -61,20 +57,20 @@ namespace FakeInstagramBusinessLogic.Services
             return new AuthenticateResponse(user, tokenHandler.WriteToken(token));
         }
 
-        public FakeInstagramEfModels.Entities.User GetUserById(Guid id)
+        public async Task<User> GetUserById(Guid id)
         {
-            return _repository.GetUserById(id);
+            return await _repository.GetUserById(id);
         }
 
         // helper methods
-        public IEnumerable<FakeInstagramEfModels.Entities.User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return _repository.GetAllUsers();
+            return await _repository.GetAllUsers();
         }
 
-        public AuthorizationIdentity GetIdentityById(Guid Id)
+        public async Task<AuthorizationIdentity> GetIdentityById(Guid id)
         {
-            FakeInstagramEfModels.Entities.User user = _repository.GetUserById(Id);
+            var user = await _repository.GetUserById(id);
             return _converter.ConvertToAuthorizationIdentity(user);
         }
 
@@ -88,26 +84,10 @@ namespace FakeInstagramBusinessLogic.Services
             return _repository.SelectUsersWithLikesMoreThanAverage();
         }
 
-        public void CreateUser(CreateUserModel userModel)
-        {
-            FakeInstagramEfModels.Entities.User user = _converter.ConvertToUser(userModel);
-            _repository.CreateUser(user);
-        }
-
-        public TopUser SelectTopUserForSelectedMonth(DateTime selectedDate)
-        {
-            return _repository.SelectTopUserForSelectedMonth(selectedDate);
-        }
-
-        public List<UserLikes> SelectUsersWithLikesMoreThanAverage()
-        {
-            return _repository.SelectUsersWithLikesMoreThanAverage();
-        }
-
-        public void CreateUser(CreateUserModel userModel)
+        public async Task CreateUser(CreateUserModel userModel)
         {
             User user = _converter.ConvertToUser(userModel);
-            _repository.CreateUser(user);
+            await _repository.CreateUser(user);
         }
     }
 }

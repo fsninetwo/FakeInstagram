@@ -5,20 +5,21 @@ using FakeInstagramViewModels.CreateModels;
 using FakeInstagramViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Services
 {
     public interface IUserService
     {
-        AuthenticateResponse Authenticate(AuthenticateRequest model);
-        User GetUserById(Guid id);
+        Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
 
-        IEnumerable<User> GetAllUsers();
+        Task<User> GetUserById(Guid id);
 
-        AuthorizationIdentity GetIdentityById(Guid userId);
+        Task<IEnumerable<User>> GetAllUsers();
 
-        void CreateUser(CreateUserModel userModel);
+        Task<AuthorizationIdentity> GetIdentityById(Guid userId);
+
+        Task CreateUser(CreateUserModel userModel);
       
         TopUser SelectTopUserForSelectedMonth(DateTime selectedDate);
 

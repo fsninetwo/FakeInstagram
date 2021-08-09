@@ -26,9 +26,9 @@ namespace FakeInstagramApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Authenticate(AuthenticateRequest model)
+        public async Task<IActionResult> Authenticate(AuthenticateRequest model)
         {
-            var response = _userService.Authenticate(model);
+            var response = await _userService.Authenticate(model);
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -37,17 +37,17 @@ namespace FakeInstagramApp.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var users = _userService.GetAllUsers();
+            var users = await _userService.GetAllUsers();
             _logger.LogInformation("User made a GetUsers request");
             return Ok(users);
         }
 
         [HttpPost]
-        public IActionResult CreateUser(CreateUserModel userModel)
+        public async Task<IActionResult> CreateUser(CreateUserModel userModel)
         {
-            _userService.CreateUser(userModel);
+            await _userService.CreateUser(userModel);
             return Ok(userModel);
         }
     }

@@ -1,12 +1,10 @@
 ﻿using FakeInstagramEfModels.Entities;
 using FakeInstagramMigrations;
 using FakeInstagramMigrations.CustomEntities;
-using FakeInstagramViewModels.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Repositories
@@ -20,30 +18,30 @@ namespace FakeInstagramBusinessLogic.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void CreateUser(User user)
+        public async Task CreateUser(User user)
         {
-            user.UserRole = _context.UserRoles.FirstOrDefault(role => role.Name.Equals("User"));
+            user.UserRole = await _context.UserRoles.FirstOrDefaultAsync(role => role.Name.Equals("User"));
             user.IsVerified = false;
             _context.Add(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<FakeInstagramEfModels.Entities.User> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
-            IEnumerable<FakeInstagramEfModels.Entities.User> user = _context.Users;//.Include(post => post.Posts);
+            List<User> user = await _context.Users.ToListAsync();//.Include(post => post.Posts);
             return user;
         }
 
-        public FakeInstagramEfModels.Entities.User GetUserByEmailAndPassword(string email, string password)
+        public async Task<User> GetUserByEmailAndPassword(string email, string password)
         {
-            FakeInstagramEfModels.Entities.User user = _context.Users.Include(role => role.UserRole)
-                .FirstOrDefault(user => user.Email.Equals(email) && user.Password.Equals(password));
+            User user = await _context.Users.Include(role => role.UserRole)
+                .FirstOrDefaultAsync(currentUser => currentUser.Email.Equals(email) && currentUser.Password.Equals(password));
             return user;
         }
 
-        public User GetUserById(Guid id)
+        public async Task<User> GetUserById(Guid id)
         {
-            FakeInstagramEfModels.Entities.User user = _context.Users.Include(role => role.UserRole).FirstOrDefault(user => user.Id == id);
+            User user = await _context.Users.Include(role => role.UserRole).FirstOrDefaultAsync(currentUser => currentUser.Id == id);
             return user;
         }
 

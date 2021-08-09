@@ -1,12 +1,8 @@
 ﻿using FakeInstagramBusinessLogic.Services;
 using FakeInstagramEfModels.Entities;
-using FakeInstagramViewModels.AuthorizationModels;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FakeInstagramBusinessLogic.Providers
@@ -22,10 +18,10 @@ namespace FakeInstagramBusinessLogic.Providers
             _userService = userService;
         }
 
-        public User GetCurrentUser()
+        public async Task<User> GetCurrentUser()
         {
             Guid id = Guid.Parse(_context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            return _userService.GetUserById(id);
+            return await _userService.GetUserById(id);
         }
 
         public bool IsCurrentUserCreator(Guid userId)

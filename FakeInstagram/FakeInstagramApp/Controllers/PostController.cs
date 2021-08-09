@@ -22,55 +22,53 @@ namespace FakeInstagramApp.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
-        private readonly ICurrentUserProvider _currentUserProvider;
 
-        public PostController(IPostService postService, ICurrentUserProvider currentUserProviderprovider)
+        public PostController(IPostService postService)
         {
             _postService = postService;
-            _currentUserProvider = currentUserProviderprovider;
         }
        
         [HttpPost]
-        public IActionResult CreateTextPost(CreatePostTextModel postTextModel)
+        public async Task<IActionResult> CreateTextPost(CreatePostTextModel postTextModel)
         {
-            _postService.CreatePostTextModel(postTextModel);
+            await _postService.CreatePostTextModel(postTextModel);
             return new OkResult();
         }
       
         [HttpPost]
-        public IActionResult CreateImagePost(CreatePostImageModel postImageModel)
+        public async Task<IActionResult> CreateImagePost(CreatePostImageModel postImageModel)
         {
-            _postService.CreatePostImageModel(postImageModel);
+            await _postService.CreatePostImageModel(postImageModel);
             return new OkResult();
         }
   
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<PostViewModel> GetPost(Guid id)
+        public async Task<ActionResult<PostViewModel>> GetPost(Guid id)
         {
-            PostViewModel postViewModel = _postService.GetById(id);
+            PostViewModel postViewModel = await _postService.GetPostById(id);
             return new JsonResult(postViewModel);
         }
 
         [HttpGet]
         [Route("{search}")]
-        public ActionResult<IEnumerable<PostViewModel>> GetPostByText(string search)
+        public async Task<ActionResult<IEnumerable<PostViewModel>>> GetPostByText(string search)
         {
-            IEnumerable <PostViewModel> postViewModel = _postService.GetPostsBySearch(search);
+            IEnumerable <PostViewModel> postViewModel = await _postService.GetPostsBySearch(search);
             return new JsonResult(postViewModel);
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<PostViewModel>> GetPostBySearchTextModel([FromQuery]SearchPostModel searchPostModel)
+        public async Task<ActionResult<IEnumerable<PostViewModel>>> GetPostBySearchTextModel([FromQuery]SearchPostModel searchPostModel)
         {
-            IEnumerable<PostViewModel> postViewModel = _postService.GetPostsBySearchModel(searchPostModel);
+            IEnumerable<PostViewModel> postViewModel = await _postService.GetPostsBySearchModel(searchPostModel);
             return new JsonResult(postViewModel);
         }
 
         [HttpPut]
-        public IActionResult UpdateTextPost(UpdatePostTextModel postTextModel)
+        public async Task<IActionResult> UpdateTextPost(UpdatePostTextModel postTextModel)
         {
-            _postService.UpdatePostTextModel(postTextModel);
+            await _postService.UpdatePostTextModel(postTextModel);
             return new OkResult();
         }
       
@@ -85,7 +83,7 @@ namespace FakeInstagramApp.Controllers
         [Route("{id}")]
         public IActionResult Delete(Guid id)
         {
-            _postService.Delete(id);
+            _postService.DeletePostById(id);
             return new OkResult();
         }
     }
