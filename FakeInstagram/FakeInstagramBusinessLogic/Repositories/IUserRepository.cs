@@ -1,4 +1,4 @@
-﻿using FakeInstagramEfModels.Entities;
+using FakeInstagramEfModels.Entities;
 using FakeInstagramMigrations.CustomEntities;
 using System;
 using System.Collections.Generic;

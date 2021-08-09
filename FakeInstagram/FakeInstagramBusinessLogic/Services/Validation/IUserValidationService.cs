@@ -1,4 +1,4 @@
-﻿using FakeInstagramEfModels.Entities;
+using FakeInstagramEfModels.Entities;
 
 namespace FakeInstagramBusinessLogic.Services.Validation
 {
