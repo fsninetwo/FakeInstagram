@@ -98,9 +98,7 @@ namespace FakeInstagramApp
             services.AddCors();
             services.AddControllers();
             
-            //services.Configure<FakeInstagramBusinessLogic.Helpers.AppSettings>(Configuration.GetSection("Secret"));
-            services.AddDbContext<FakeInstagramContext>
-                (options => options.UseSqlServer(appSettings.ConnectionString));
+            services.AddDbContext<FakeInstagramContext> (options => options.UseSqlServer(appSettings.ConnectionString));
 
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostRepository, PostRepository>();
@@ -126,12 +124,16 @@ namespace FakeInstagramApp
 
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseSerilogRequestLogging();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+
+            if (env.IsDevelopment())
             {
-                c.SwaggerEndpoint("swagger/v1/swagger.json", "API V1");
-                c.RoutePrefix = string.Empty;
-            });
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("swagger/v1/swagger.json", "API V1");
+                    c.RoutePrefix = string.Empty;
+                });
+            }
 
             app.UseRouting();
             
