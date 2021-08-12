@@ -119,7 +119,8 @@ namespace FakeInstagramApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();  
+                app.UseDeveloperExceptionPage();
+                //app.UseHttpsRedirection();
             }
 
             app.UseMiddleware<ExceptionMiddleware>();
