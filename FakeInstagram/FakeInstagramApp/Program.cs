@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FakeInstagramApp
@@ -49,11 +50,6 @@ namespace FakeInstagramApp
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                /*.ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.AddConsole();
-                })*/
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

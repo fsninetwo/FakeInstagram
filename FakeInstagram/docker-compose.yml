@@ -1,8 +1,24 @@
 version: '3.4'
 
 services:
-  fakeinstagramapp:
-    image: ${DOCKER_REGISTRY-}fakeinstagramapp
+  fakeinstagram:
+    image: fakeinstagram
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on: 
+      - migrations
+      - db
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      SA_PASSWORD: "CfrVfq<jkc1Nfqvc"
+      ACCEPT_EULA: "Y"
+    ports:
+    - "1433:1433"
+    depends_on: 
+      - migrations
+  migrations:
+    build: 
+      context: .
+      dockerfile: FakeInstagramMigrations/Dockerfile
