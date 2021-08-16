@@ -17,7 +17,7 @@ namespace FakeInstagramMigrations
         {
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            Console.WriteLine($"environmentName={environmentName}");
+            //Console.WriteLine($"environmentName={environmentName}");
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())

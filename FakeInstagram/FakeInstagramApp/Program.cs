@@ -32,14 +32,15 @@ namespace FakeInstagramApp
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
                 .CreateLogger();
-
             try
             {
                 Log.Information("Starting web host");
                 CreateHostBuilder(args).Build().Run();
+                
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 Log.Fatal(ex, "Host terminated unexpectedly");
             }
             finally
