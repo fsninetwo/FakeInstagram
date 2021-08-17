@@ -3,8 +3,6 @@ version: '3.4'
 services:
   fakeinstagram:
     image: fakeinstagram
-    environment: 
-      - ConnectionString=Data Source=192.168.178.149;Port=1433;Initial Catalog=FakeInstagram;User id=newUsr;Password=CfrVfq<jkc1Nfqvc;"
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,11 +11,6 @@ services:
       - db
   db:
     image: mcr.microsoft.com/mssql/server:2017-latest
-    environment:
-      SA_PASSWORD: CfrVfq<jkc1Nfqvc
-      ACCEPT_EULA: Y
-    ports:
-      - "1433:1433"
     depends_on: 
       - migrations
   migrations:

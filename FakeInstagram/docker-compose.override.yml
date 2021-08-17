@@ -3,6 +3,7 @@ version: '3.4'
 services:
   fakeinstagram:
     environment:
+      - ConnectionString=Data Source=db;Initial Catalog=FakeInstagram;User id=newUsr;Password=CfrVfq<jkc1Nfqvc;
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
 #      - ASPNETCORE_URLS=https://+:443;http://+:80
@@ -11,3 +12,16 @@ services:
 #      - "44325:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https/
+
+  db:
+    environment:
+      - SA_PASSWORD=CfrVfq<jkc1Nfqvc
+      - ACCEPT_EULA=Y
+    ports:
+      - 1433:1433
+      
+  migrations:
+    environment:
+      - ConnectionString=Data Source=db;Initial Catalog=FakeInstagram;User id=newUsr;Password=CfrVfq<jkc1Nfqvc;
+
+# TCP/IP 192.168.178.149;Port=1433
