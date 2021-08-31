@@ -5,7 +5,7 @@ services:
     environment:
       - ConnectionString=Data Source=db;Initial Catalog=FakeInstagram;User id=newUsr;Password=CfrVfq<jkc1Nfqvc;
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=http://0.0.0.0:80
 #      - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
       - "8080:80"
