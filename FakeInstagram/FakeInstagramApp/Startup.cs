@@ -100,6 +100,7 @@ namespace FakeInstagramApp
             
             services.AddDbContext<FakeInstagramContext> (options => options.UseSqlServer(appSettings.ConnectionString));
 
+            services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddSingleton<IPostConverter, PostConverter>();
